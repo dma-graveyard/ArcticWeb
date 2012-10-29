@@ -8,7 +8,7 @@ public class FrontPage extends WebPage {
 
 	public FrontPage(final PageParameters parameters) {
 		super(parameters);
-
+		
 
 	}
 }
