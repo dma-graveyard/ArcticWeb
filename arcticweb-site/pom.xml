@@ -55,6 +55,11 @@
 			<version>${wicket.version}</version>
 		</dependency>
 		-->
+		<dependency>
+    		<groupId>org.apache.wicket</groupId>
+    		<artifactId>wicket-auth-roles</artifactId>
+    		<version>6.2.0</version>
+		</dependency>
 
 		<!-- LOGGING DEPENDENCIES - LOG4J -->
 		<dependency>
@@ -131,6 +136,13 @@
 				<configuration>
 					<downloadSources>true</downloadSources>
 				</configuration>
+			</plugin>
+			<plugin>            
+  				<groupId>org.apache.maven.plugins</groupId>
+  				<artifactId>maven-war-plugin</artifactId>
+  				<configuration>
+    				<warSourceDirectory>web</warSourceDirectory>        
+  				</configuration>
 			</plugin>
 		</plugins>
 	</build>
