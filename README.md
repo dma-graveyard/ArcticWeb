@@ -5,9 +5,9 @@ Web portal for maritime stakeholders in the arctic area
 
 ## Prerequisites ##
 
+* Java 1.6+
 * Maven
-TODO
-
+* Java EE server like Tomcat or JBoss
 
 ## Eclipse setup ##
 
