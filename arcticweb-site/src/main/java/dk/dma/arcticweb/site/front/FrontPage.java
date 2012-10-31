@@ -13,30 +13,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
-package dk.dma.arcticweb.site;
+package dk.dma.arcticweb.site.front;
 
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import dk.dma.arcticweb.site.front.FrontPage;
+public class FrontPage extends WebPage {
+	private static final long serialVersionUID = 1L;
 
-/**
- * Application object for web application
- */
-public class ArcticWebApplication extends WebApplication
-{    	
+	public FrontPage(final PageParameters parameters) {
+		super(parameters);
+		
 
-	@Override
-	public Class<? extends WebPage> getHomePage()
-	{
-		return FrontPage.class;
-	}
-
-	@Override
-	public void init()
-	{
-		super.init();
-
-		// add your configuration here
 	}
 }
