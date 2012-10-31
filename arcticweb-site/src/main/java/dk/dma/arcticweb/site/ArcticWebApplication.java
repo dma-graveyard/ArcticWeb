@@ -15,6 +15,7 @@
  */
 package dk.dma.arcticweb.site;
 
+import org.apache.wicket.core.util.file.WebApplicationPath;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 
@@ -23,19 +24,19 @@ import dk.dma.arcticweb.site.front.FrontPage;
 /**
  * Application object for web application
  */
-public class ArcticWebApplication extends WebApplication
-{    	
+public class ArcticWebApplication extends WebApplication {
 
 	@Override
-	public Class<? extends WebPage> getHomePage()
-	{
+	public Class<? extends WebPage> getHomePage() {
 		return FrontPage.class;
 	}
 
 	@Override
-	public void init()
-	{
+	public void init() {
 		super.init();
+		
+		// HTML files will be located in web folder
+		getResourceSettings().getResourceFinders().add(new WebApplicationPath(getServletContext(), ""));
 
 		// add your configuration here
 	}
