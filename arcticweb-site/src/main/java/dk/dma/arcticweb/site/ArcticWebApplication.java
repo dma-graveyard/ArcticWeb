@@ -15,7 +15,6 @@
  */
 package dk.dma.arcticweb.site;
 
-import org.apache.wicket.core.util.file.WebApplicationPath;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 
@@ -36,7 +35,7 @@ public class ArcticWebApplication extends WebApplication {
 		super.init();
 		
 		// HTML files will be located in web folder
-		getResourceSettings().getResourceFinders().add(new WebApplicationPath(getServletContext(), ""));
+		//getResourceSettings().getResourceFinders().add(new WebApplicationPath(getServletContext(), ""));
 
 		// add your configuration here
 	}
