@@ -3,14 +3,12 @@ package dk.dma.arcticweb.ejb.eao;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import dk.dma.arcticweb.ejb.domain.IEntity;
 
-@Stateless
 public class EaoImpl implements Eao {
 
 	@PersistenceContext(unitName = "arcticweb")
