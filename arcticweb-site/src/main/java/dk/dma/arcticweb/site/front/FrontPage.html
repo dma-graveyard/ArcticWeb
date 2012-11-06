@@ -36,6 +36,41 @@
 			height: 40px;
 			line-height: 40px;
 		}
+		
+		.carousel .container {
+	      position: absolute;
+	      right: 0;
+	      bottom: 0;
+	      left: 0;
+	    }
+      	.carousel img {
+	      min-width: 100%;
+	      height: 320px;
+	    }
+	    .carousel-caption {
+	      background-color: rgba(255,255,255,0.6);
+	      height: 120px;
+	      width: 65%;
+	      max-width: 550px;
+	      padding: 16px;
+	      margin-bottom: 20px;
+	    }
+	    .carousel-caption h1 {
+	      margin: 0;
+	      line-height: 1.25;
+	      color: #000;
+	    }
+	    .carousel-caption .lead {
+	      margin: 0;
+	      line-height: 1.25;
+	      color: #000;
+	    }
+	    
+	    .hero-content{
+	    	text-align: center;
+	    }
+
+		
       	</style>
     	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
 		
@@ -157,17 +192,75 @@
 	</div>
 	<!-- ============================================= -->
 	
+	<!-- Carousel
+	    ================================================== -->
+	    <div id="myCarousel" class="carousel slide">
+	      <div class="carousel-inner">
+	        
+	        <div class="item active">
+	          <img src="img/img4.jpg" alt="">
+	          <div class="container">
+	            <div class="carousel-caption">
+	              <h1>An example headline.</h1>
+	              <p class="lead">
+	              Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+	              </p>
+	            </div>
+	          </div>
+	        </div>
+	        
+	        <div class="item">
+	          <img src="img/img5.jpg" alt="">
+	          <div class="container">
+	            <div class="carousel-caption">
+	              <h1>Another example headline.</h1>
+	              <p class="lead">
+	              Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+	              </p>
+	            </div>
+	          </div>
+	        </div>
+	        
+	        <div class="item">
+	          <img src="img/img6.jpg" alt="">
+	          <div class="container">
+	            <div class="carousel-caption">
+	              <h1>One more for good measure.</h1>
+	              <p class="lead">
+	              Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+	              </p>
+	            </div>
+	          </div>
+	        </div>
+	        
+	      </div>
+	      <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+	      <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+	  </div>
+	  <!-- ================================================= -->
+	
     
     <!-- Container
     ================================================== -->
     <div class="container">
+    
+    	
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <h1>Welcome to ArcticWeb</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+      	<div class="hero-content">
+	        <h1 style="margin-top:0px; margin-bottom:30px;">Welcome to ArcticWeb</h1>
+	        <p>
+	        	This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique. 
+	        	Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+	        </p>
+	        <p>
+	        	<a class="btn btn-large btn-primary" href="#">Request a login</a>
+	        </p>
+        </div>
       </div>
+      
+      <hr class="soften">
 
       <!-- Top row -->
       <div class="row-fluid">
