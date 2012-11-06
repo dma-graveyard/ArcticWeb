@@ -10,11 +10,18 @@ Web portal for maritime stakeholders in the arctic area
 
 ## Eclipse setup ##
 
-    mvn eclipse:eclipse -Dwtpversion=2.0
+    mvn eclipse:eclipse
 
 Import into Eclipse
 
 ## Building ##
 
-    mvn install
+    mvn clean install
+    
+## Start embedded Jetty web server ##
+
+	mvn jetty:run
+
+## 
+ 
 

@@ -70,6 +70,12 @@ public class User extends AbstractEntity {
 	}
 	
 	@Transient
+	public boolean passwordMatch(String password) {
+		if (password == null) return false;
+		return hashPassword(password).equals(getPasswordHash());
+	}
+	
+	@Transient
 	public static String hashPassword(String password) {
 		return DigestUtils.sha256Hex(DigestUtils.sha256Hex(password) + PASSWORD_SALT);
 	}

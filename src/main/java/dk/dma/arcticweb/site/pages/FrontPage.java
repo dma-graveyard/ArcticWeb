@@ -21,19 +21,20 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import com.google.inject.Inject;
 
 import dk.dma.arcticweb.domain.User;
-import dk.dma.arcticweb.service.UserService;
+import dk.dma.arcticweb.eao.UserEao;
 
 public class FrontPage extends WebPage {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	UserService userService;
+	private UserEao userEao;	
 
 	public FrontPage(final PageParameters parameters) {
 		super(parameters);
 		
-		User user = userService.getByUsername("ole");
+		User user = userEao.getByUsername("obo");
 		System.out.println("user: "+ user);
+		
 
 	}
 }

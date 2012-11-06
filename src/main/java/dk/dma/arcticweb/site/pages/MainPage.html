@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:wicket="http://wicket.apache.org">
+	<head>
+		<meta charset="utf-8" />
+		<title>ArcticWeb - Greenland</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/bootstrap-responsive.css" rel="stylesheet">
+		<style type="text/css">
+      	body {
+        	padding-top: 40px;
+        	padding-bottom: 0px;
+      	}
+      	/* Faded out hr */
+		hr.soften {
+		  height: 1px;
+		  margin: 32px;
+		  background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.2), rgba(0,0,0,0));
+		  background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.2), rgba(0,0,0,0));
+		  background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.2), rgba(0,0,0,0));
+		  background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,.2), rgba(0,0,0,0));
+		  border: 0;
+		}
+		.navbar {
+			-webkit-box-shadow: 0 0 2px 2px rgba(0,0,0,.2);
+		       -moz-box-shadow: 0 0 2px 2px rgba(0,0,0,.2);
+		            box-shadow: 0 0 2px 2px rgba(0,0,0,.2);
+		}
+		
+		.box {
+			text-align: center;
+			color: #5A5A5A;
+			font-size: 16px;
+			line-height: 24px;
+		}
+		
+		.header {
+			font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			font-size: 32px;
+			font-weight: 200;
+			height: 40px;
+			line-height: 40px;
+		}
+				
+		.carousel .container {
+	      position: absolute;
+	      right: 0;
+	      bottom: 0;
+	      left: 0;
+	    }
+      	.carousel img {
+	      min-width: 100%;
+	      height: 320px;
+	    }
+	    .carousel-caption {
+	      background-color: rgba(255,255,255,0.6);
+	      height: 120px;
+	      width: 65%;
+	      max-width: 550px;
+	      padding: 16px;
+	      margin: 40px;
+	    }
+	    .carousel-caption h1 {
+	      margin: 0;
+	      line-height: 1.25;
+	      color: #000;
+	    }
+	    .carousel-caption .lead {
+	      margin: 0;
+	      line-height: 1.25;
+	      color: #000;
+	    }
+	    
+	    .hero-content{
+	    	text-align: center;
+	    }
+	    
+	    /* Download button */
+		.hero-content .btn {
+		  margin-top: 22px;
+		  padding: 16px 22px;
+		  font-size: 22px;
+		  font-weight: 200;
+		  color: #fff; /* redeclare to override the `.jumbotron a` */
+		  border: 0;
+		  -webkit-border-radius: 6px;
+		     -moz-border-radius: 6px;
+		          border-radius: 6px;
+		  -webkit-box-shadow: inset 2px 3px 2px rgba(255,255,255,.2), 0 0 2px 2px rgba(0,0,0,.0);
+		     -moz-box-shadow: inset 2px 3px 2px rgba(255,255,255,.2), 0 0 2px 2px rgba(0,0,0,.0);
+		          box-shadow: inset 2px 3px 2px rgba(255,255,255,.2), 0 0 2px 2px rgba(0,0,0,.0);
+		  -webkit-transition: none;
+		     -moz-transition: none;
+		          transition: none;
+		}
+		.hero-content .btn:hover {
+		  -webkit-box-shadow: inset 0px 1px 0px rgba(255,255,255,.1), 0 0 2px 2px rgba(0,0,0,.0);
+		     -moz-box-shadow: inset 0px 1px 0px rgba(255,255,255,.1), 0 0 2px 2px rgba(0,0,0,.0);
+		          box-shadow: inset 0px 1px 0px rgba(255,255,255,.1), 0 0 2px 2px rgba(0,0,0,.0);
+		}
+		.hero-content .btn:active {
+		  -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 0 2px 2px rgba(0,0,0,.0);
+		     -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 0 2px 2px rgba(0,0,0,.0);
+		          box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 0 2px 2px rgba(0,0,0,.0);
+		}
+
+		
+      	</style>
+    	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+		
+	</head>
+	<body>
+	
+	<!-- Navbar
+    ================================================== -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="./index.html"><font color="#0080C0">ArcticWeb</font><font color="#888888" size="3">Greenland</font></a>
+          <div class="nav-collapse collapse">
+          	 <p class="navbar-text pull-right">
+          	   <i class="icon-user icon-white" style="vertical-align:middle; margin-bottom: 4px"></i>
+               Signed in as <a href="#">njustesen@gmail.com</a>
+               |
+               <a href="#">Log out</a>
+            </p>
+            <ul class="nav">
+            	<li class="active">
+            		<a href="index.html">
+                		<i class="icon-home icon-white" style="vertical-align:middle; margin-bottom: 4px"></i> 
+                		Home
+                	</a>
+              	</li>
+			  	<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						Your ship
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+					  	<li><a href="#">Zoom to ship</a></li>
+						<li><a href="#">Enter details</a></li>
+						<li><a href="#">Report</a></li>
+					</ul>
+				</li>
+
+				<li>
+					<a href="#">
+						Reporting
+					</a>
+				</li>
+
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						AIS
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+					  	<li><a href="#">---------</a></li>
+						<li><a href="#">---------</a></li>
+						<li><a href="#">---------</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						Distance tool
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+					  	<li><a href="#">---------</a></li>
+						<li><a href="#">---------</a></li>
+						<li><a href="#">---------</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						Settings
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+					  	<li><a href="#">---------</a></li>
+						<li><a href="#">---------</a></li>
+						<li><a href="#">---------</a></li>
+					</ul>
+				</li>
+				
+			</ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ============================================= -->
+    
+    <!-- Container
+    ================================================== -->
+    <div class="container">
+    
+
+    </div>
+    <!-- ============================================= -->
+	
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="js/jquery-1.8.2.min.js"	></script>
+    <script src="js/bootstrap.min.js"></script>
+	</body>
+</html>
