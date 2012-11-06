@@ -20,7 +20,7 @@
         <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
         <init-param>
             <param-name>applicationClassName</param-name>
-            <param-value>se.lil.WicketApplication</param-value>
+            <param-value>dk.dma.arcticweb.site.ArcticWebApplication</param-value>
         </init-param>
     </filter>
 
