@@ -5,10 +5,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 
+import org.apache.commons.codec.digest.DigestUtils;
 
 @Entity
+@NamedQueries( {
+	@NamedQuery(name = "User:getByUsername", query = "SELECT u FROM User u WHERE u.username=:username")
+})
 public class User extends AbstractEntity {
+	
+	private static final String PASSWORD_SALT = "fa26frADu8";
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -37,7 +46,7 @@ public class User extends AbstractEntity {
 		this.username = username;
 	}
 	
-	@Column(nullable = false, length = 128)
+	@Column(nullable = false, length = 256)
 	public String getPassowordHash() {
 		return passowordHash;
 	}
@@ -53,6 +62,16 @@ public class User extends AbstractEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	@Transient
+	public void setPassword(String password) {
+		setPassowordHash(hashPassword(password));
+	}
+	
+	@Transient
+	public static String hashPassword(String password) {
+		return DigestUtils.sha256Hex(DigestUtils.sha256Hex(password) + PASSWORD_SALT);
 	}
 	
 }

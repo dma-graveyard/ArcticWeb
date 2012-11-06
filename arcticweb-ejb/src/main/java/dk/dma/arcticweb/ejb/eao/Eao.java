@@ -34,33 +34,19 @@ public interface Eao {
 	public abstract IEntity saveEntity(IEntity bean);
 
 	/**
-	 * The entityBean must define a Namedquery
-	 * '"<clazz.simpleName>:getByCriteria' with one parameter named 'param' ex :
-	 * 
-	 * @NamedQuery(name = "ClassName:getByCriteria", query =
-	 *                  "SELECT c FROM ClassName c where c.someProperty=:param")
-	 * 
-	 * @param clazz
-	 * @param param
-	 * @return
-	 */
-	public List<? extends IEntity> getByCriteria(Class<? extends IEntity> clazz, Object param);
-
-	/**
-	 * The entityBean must define a Namedquery
-	 * '"<clazz.simpleName>:getByCriterias' with one to several parameters. The
-	 * map params hold the parameter's name/value ex : @NamedQuery(name =
-	 * "ClassName:getByCriterias", query =
-	 * "SELECT c FROM ClassName c where c.someProperty =:name1 and c.someOtherProp=:name2"
-	 * )
-	 * 
-	 * @param clazz
+	 * Give query as argument
+	 * @param queryStr
 	 * @param params
 	 * @return
 	 */
-	public List<? extends IEntity> getByCriterias(Class<? extends IEntity> clazz, Map<String, Object> params);
-	
-	
 	public List<? extends IEntity> getByQuery(String queryStr, Map<String, Object> params);
-
+	
+	/**
+	 * Give named query as argument
+	 * @param namedQuery
+	 * @param params
+	 * @return
+	 */
+	public List<? extends IEntity> getByNamedQuery(String namedQuery, Map<String, Object> params);
+	
 }
