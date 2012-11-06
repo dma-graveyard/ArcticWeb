@@ -9,10 +9,6 @@ import dk.dma.arcticweb.domain.User;
 @Transactional
 public class UserEaoImpl extends EaoImpl implements UserEao {
 	
-	public UserEaoImpl() {
-		System.out.println("Creating user eao impl");
-	}
-		
 	@SuppressWarnings("unchecked")
 	@Override
 	public User getByUsername(String username) {

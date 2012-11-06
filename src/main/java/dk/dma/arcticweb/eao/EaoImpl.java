@@ -5,8 +5,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import com.google.inject.persist.Transactional;
+
 import dk.dma.arcticweb.domain.IEntity;
 
+@Transactional
 public class EaoImpl implements Eao {
 
 	@Inject
