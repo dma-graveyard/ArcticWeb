@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    version="2.5">
-
-    <display-name>ArcticWeb</display-name>
-
-    <filter>
-        <filter-name>guiceFilter</filter-name>
-        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>guiceFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>wicket.wicketwithguice</filter-name>
-        <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
-        <init-param>
-            <param-name>applicationClassName</param-name>
-            <param-value>dk.dma.arcticweb.site.ArcticWebApplication</param-value>
-        </init-param>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>wicket.wicketwithguice</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<display-name>ArcticWeb</display-name>
+	<filter>
+		<filter-name>guiceFilter</filter-name>
+		<filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>guiceFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>wicket.wicketwithguice</filter-name>
+		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+		<init-param>
+			<param-name>applicationClassName</param-name>
+			<param-value>dk.dma.arcticweb.site.ArcticWebApplication</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>wicket.wicketwithguice</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<description></description>
+		<display-name>JsonProxyServlet</display-name>
+		<servlet-name>JsonProxyServlet</servlet-name>
+		<servlet-class>dk.dma.arcticweb.site.proxy.JsonProxyServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JsonProxyServlet</servlet-name>
+		<url-pattern>/json_proxy</url-pattern>
+	</servlet-mapping>
 </web-app>
