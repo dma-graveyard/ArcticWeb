@@ -6,9 +6,9 @@ var focusZoom = 10;
 var worldZoom = 3;
 var minZoomLevel = 8;
 var positionUpdate = 20*1000;	// The number of milliseconds between each position update
-var listUrl = '/aisview/anon_vessel_list';
-var detailsUrl = '/aisview/vessel_target_details';
-var searchUrl = '/aisview/vessel_search';
+var listUrl = 'json_proxy/vessel_list';
+var detailsUrl = 'json_proxy/vessel_target_details';
+var searchUrl = 'json_proxy/vessel_search';
 
 // Global variables
 var map;
@@ -277,7 +277,7 @@ function drawVessels(){
 				id: value.id,
 				angle: value.degree - 90, 
 				opacity:1, 
-				image:"/aisviewOpenLayers/img/" + value.image,
+				image:"img/" + value.image,
 				imageWidth: value.imageWidth,
 				imageHeight: value.imageHeight,
 				imageYOffset: value.imageYOffset,
@@ -314,7 +314,7 @@ function drawVessels(){
 				id: -1,
 				angle: selectedFeature.attributes.angle - 90, 
 				opacity:1, 
-				image:"/aisviewOpenLayers/img/selection.png",
+				image:"img/selection.png",
 				imageWidth: 32,
 				imageHeight: 32,
 				imageYOffset: -16,
@@ -355,7 +355,7 @@ function redrawSelection(){
 				id: -1,
 				angle: selectedFeature.attributes.angle - 90, 
 				opacity:1, 
-				image:"/aisviewOpenLayers/img/selection.png",
+				image:"img/selection.png",
 				imageWidth: 32,
 				imageHeight: 32,
 				imageYOffset: -16,
