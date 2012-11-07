@@ -12,45 +12,73 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 /**
  * Servlet implementation class JsonProxyServlet
  */
 public class JsonProxyServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public JsonProxyServlet() {
-        super();
-    }
+	
+	private static final Logger LOG = Logger.getLogger(JsonProxyServlet.class);
 
-    @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public JsonProxyServlet() {
+		super();
+	}
+
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException {
 		request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_OK);
-        PrintWriter out = response.getWriter();
-        
-        URL url = new URL("http://www.dr.dk/");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-		conn.setRequestMethod("GET");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
 		
-		if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-			throw new RuntimeException("Failed : HTTP error code : "
-				+ conn.getResponseCode());
+		String baseUrl = "http://linux06.fomfrv.dk:8081/aisview";
+		String url = baseUrl;
+		if (request.getPathInfo() != null) {
+			url += request.getPathInfo();
+		}
+		if (request.getQueryString() != null) {
+			url += "?" + request.getQueryString(); 
 		}
 		
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				(conn.getInputStream())));
- 
+		LOG.info("JSOPN proxy request for service: " + url);
+		
+		String output;
+		try {
+			output = requestUrl(url);
+			response.setStatus(HttpServletResponse.SC_OK);			
+		} catch (IOException e) {
+			output = "{\"error\":true}";
+			response.setStatus(HttpServletResponse.SC_GATEWAY_TIMEOUT);
+		}
+		out.print(output);
+	}
+
+	private String requestUrl(String urlStr) throws IOException {
+		URL url = new URL(urlStr);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setDoOutput(true);
+		conn.setRequestMethod("GET");
+
+		if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+			throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+		}
+
+		BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+		StringBuilder sb = new StringBuilder();
 		String output;
 		while ((output = br.readLine()) != null) {
-			out.println(output);
-		} 
-		conn.disconnect();        
-    }
+			sb.append(output);
+		}
+		conn.disconnect();
+		return sb.toString();
+	}
 
 }

@@ -26,12 +26,11 @@
 	</filter-mapping>
 	<servlet>
 		<description></description>
-		<display-name>JsonProxyServlet</display-name>
 		<servlet-name>JsonProxyServlet</servlet-name>
 		<servlet-class>dk.dma.arcticweb.site.proxy.JsonProxyServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>JsonProxyServlet</servlet-name>
-		<url-pattern>/json_proxy</url-pattern>
+		<url-pattern>/json_proxy/*</url-pattern>
 	</servlet-mapping>
 </web-app>
