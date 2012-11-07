@@ -17,8 +17,8 @@
 
 		<hibernate-core.version>4.1.7.Final</hibernate-core.version>
 		<mysql-connector-java.version>5.1.16</mysql-connector-java.version>
-		<slf4j.version>1.6.6</slf4j.version>
-		<log4j.version>1.6.6</log4j.version>
+		<slf4j.version>1.6.5</slf4j.version>
+		<log4j.version>1.6.5</log4j.version>
 		<guice.version>3.0</guice.version>
 		<wicket.version>6.2.0</wicket.version>
 	</properties>

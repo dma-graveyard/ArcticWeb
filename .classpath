@@ -90,7 +90,7 @@
       <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.6.6/slf4j-api-1.6.6-sources.jar">
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.5/slf4j-api-1.6.5.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.6.5/slf4j-api-1.6.5-sources.jar">
     <attributes>
       <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
     </attributes>
@@ -120,7 +120,7 @@
       <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.6.6/slf4j-log4j12-1.6.6.jar" sourcepath="M2_REPO/org/slf4j/slf4j-log4j12/1.6.6/slf4j-log4j12-1.6.6-sources.jar">
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.6.5/slf4j-log4j12-1.6.5.jar" sourcepath="M2_REPO/org/slf4j/slf4j-log4j12/1.6.5/slf4j-log4j12-1.6.5-sources.jar">
     <attributes>
       <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
     </attributes>

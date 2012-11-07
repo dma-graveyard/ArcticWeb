@@ -181,6 +181,10 @@ function loadVessels(){
 			
 	// Show Loading bar
 	$("#loadingBar").css('visibility', 'visible');
+	
+	// Position loading bar
+	var x = $(document).width() / 2 - $("#loadingBar").width() / 2;
+	$("#loadingBar").css('left', x);
 
 	// Get points from viewport
 	var viewportWidth = $(map.getViewport()).width();
