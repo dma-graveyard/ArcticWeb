@@ -47,7 +47,7 @@ public class JsonProxyServlet extends HttpServlet {
 			url += "?" + request.getQueryString(); 
 		}
 		
-		LOG.info("JSOPN proxy request for service: " + url);
+		LOG.debug("JSOPN proxy request for service: " + url);
 		
 		String output;
 		try {
