@@ -2,9 +2,12 @@ package dk.dma.arcticweb.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
@@ -24,6 +27,7 @@ public class User extends AbstractEntity {
 	private String username;
 	private String passwordHash;
 	private String email;
+	private Stakeholder stakeholder;
 	
 	public User() {
 		super();
@@ -62,6 +66,16 @@ public class User extends AbstractEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	@ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+    @JoinColumn(nullable = true)
+	public Stakeholder getStakeholder() {
+		return stakeholder;
+	}
+	
+	public void setStakeholder(Stakeholder stakeholder) {
+		this.stakeholder = stakeholder;
 	}
 	
 	@Transient

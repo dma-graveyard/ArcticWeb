@@ -15,19 +15,27 @@
  */
 package dk.dma.arcticweb.site.pages;
 
+import java.util.List;
+import java.util.Set;
+
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
+import dk.dma.arcticweb.domain.Ship;
+import dk.dma.arcticweb.domain.Stakeholder;
 import dk.dma.arcticweb.domain.User;
+import dk.dma.arcticweb.eao.StakeholderEao;
 import dk.dma.arcticweb.eao.UserEao;
 
 public class FrontPage extends WebPage {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private UserEao userEao;	
+	private UserEao userEao;
+	@Inject
+	private StakeholderEao stakeholderEao;
 
 	public FrontPage(final PageParameters parameters) {
 		super(parameters);
@@ -35,6 +43,15 @@ public class FrontPage extends WebPage {
 		User user = userEao.getByUsername("obo");
 		System.out.println("user: "+ user);
 		
+		List<Stakeholder> stakeholders = stakeholderEao.getAll();
+		for (Stakeholder stakeholder : stakeholders) {
+			if (stakeholder instanceof Ship) {
+				Ship ship = (Ship)stakeholder;
+				System.out.println("mmsi: " + ship.getMmsi());
+				Set<User> users = ship.getUsers();
+				System.out.println("users: " + users.size());
+			}
+		}
 
 	}
 }
