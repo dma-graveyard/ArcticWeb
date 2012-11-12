@@ -13,15 +13,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
-package dk.dma.arcticweb.site;
+package dk.dma.arcticweb.site.pages.main;
 
-import com.google.inject.persist.PersistFilter;
-import com.google.inject.persist.jpa.JpaPersistModule;
-import com.google.inject.servlet.ServletModule;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.model.PropertyModel;
 
-public class ArcticServletModule extends ServletModule {
-    protected void configureServlets() {
-        install(new JpaPersistModule("arcticweb"));
-        filter("/*").through(PersistFilter.class);
-    }
+import dk.dma.arcticweb.domain.User;
+import dk.dma.arcticweb.site.pages.BasePage;
+
+public class MainPage extends BasePage {
+	private static final long serialVersionUID = 1L;
+	
+	public MainPage() {
+		super();
+		
+		// Just for testing
+		User user = new User();
+		user.setUsername("testuser");
+		
+		add(new Label("username", new PropertyModel<User>(user, "username")));
+		
+	}
+
 }

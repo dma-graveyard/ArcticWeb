@@ -15,11 +15,16 @@
  */
 package dk.dma.arcticweb.site;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.Response;
 
-import dk.dma.arcticweb.site.pages.FrontPage;
+import dk.dma.arcticweb.site.pages.front.FrontPage;
+import dk.dma.arcticweb.site.pages.main.MainPage;
+import dk.dma.arcticweb.site.session.ArcticWebSession;
 
 /**
  * Application object for web application
@@ -34,6 +39,15 @@ public class ArcticWebApplication extends WebApplication {
 	@Override
 	public void init() {
 		super.init();
-		getComponentInstantiationListeners().add(new GuiceComponentInjector(this, new ArcticServletModule()));
+		getComponentInstantiationListeners().add(new GuiceComponentInjector(this, new ArcticServletModule()));		
+		
+		// Mount pages
+		mountPage("/main", MainPage.class);
 	}
+	
+	@Override
+	public Session newSession(Request request, Response response) {		
+		return new ArcticWebSession(request);
+	}
+	
 }

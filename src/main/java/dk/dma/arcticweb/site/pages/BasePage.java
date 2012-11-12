@@ -15,15 +15,25 @@
  */
 package dk.dma.arcticweb.site.pages;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public class MainPage extends WebPage {
+import dk.dma.arcticweb.site.session.ArcticWebSession;
+
+/**
+ * Parent page for all pages
+ */
+public abstract class BasePage extends WebPage {
+
 	private static final long serialVersionUID = 1L;
-	
-	public MainPage(final PageParameters parameters) {
-		super(parameters);
-		
-	}
 
+	public BasePage() {
+		super();
+	}
+	
+	@Override
+	public Session getSession() {
+		return (ArcticWebSession)super.getSession();
+	}
+	
 }
