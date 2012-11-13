@@ -69,7 +69,7 @@ public class User extends AbstractEntity {
 	}
 	
 	@ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-    @JoinColumn(nullable = true)
+    @JoinColumn(nullable = false)
 	public Stakeholder getStakeholder() {
 		return stakeholder;
 	}
