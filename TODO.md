@@ -4,7 +4,7 @@
 
 * New images without copyright restrictions
 * Text on site (MAB)
-* 
+* Behind HTTPS
 
 == Functionality ==
 
