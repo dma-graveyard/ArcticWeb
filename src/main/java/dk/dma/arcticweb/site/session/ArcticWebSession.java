@@ -13,15 +13,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
-package dk.dma.arcticweb.site;
+package dk.dma.arcticweb.site.session;
 
-import com.google.inject.persist.PersistFilter;
-import com.google.inject.persist.jpa.JpaPersistModule;
-import com.google.inject.servlet.ServletModule;
+import org.apache.wicket.protocol.http.WebSession;
+import org.apache.wicket.request.Request;
 
-public class ArcticServletModule extends ServletModule {
-    protected void configureServlets() {
-        install(new JpaPersistModule("arcticweb"));
-        filter("/*").through(PersistFilter.class);
-    }
+import dk.dma.arcticweb.domain.User;
+
+/**
+ * Session object
+ */
+public class ArcticWebSession extends WebSession {
+	
+	private User user = null;
+	
+	private static final long serialVersionUID = 1L;
+
+	public ArcticWebSession(Request request) {
+		super(request);
+		
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public boolean isLoggedIn() {
+		return (user != null);
+	}
+	
+
 }

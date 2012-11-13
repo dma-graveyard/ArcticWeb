@@ -13,13 +13,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
-package dk.dma.arcticweb.site.pages;
+package dk.dma.arcticweb.site.pages.front;
 
 import java.util.List;
 import java.util.Set;
-
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.google.inject.Inject;
 
@@ -28,8 +25,9 @@ import dk.dma.arcticweb.domain.Stakeholder;
 import dk.dma.arcticweb.domain.User;
 import dk.dma.arcticweb.eao.StakeholderEao;
 import dk.dma.arcticweb.eao.UserEao;
+import dk.dma.arcticweb.site.pages.BasePage;
 
-public class FrontPage extends WebPage {
+public class FrontPage extends BasePage {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
@@ -37,8 +35,8 @@ public class FrontPage extends WebPage {
 	@Inject
 	private StakeholderEao stakeholderEao;
 
-	public FrontPage(final PageParameters parameters) {
-		super(parameters);
+	public FrontPage() {
+		super();
 		
 		User user = userEao.getByUsername("obo");
 		System.out.println("user: "+ user);
