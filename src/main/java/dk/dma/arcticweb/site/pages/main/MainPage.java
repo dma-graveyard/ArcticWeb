@@ -16,10 +16,13 @@
 package dk.dma.arcticweb.site.pages.main;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.PropertyModel;
 
 import dk.dma.arcticweb.domain.User;
 import dk.dma.arcticweb.site.pages.BasePage;
+import dk.dma.arcticweb.site.pages.front.FrontPage;
+import dk.dma.arcticweb.site.session.ArcticWebSession;
 
 public class MainPage extends BasePage {
 	private static final long serialVersionUID = 1L;
@@ -31,8 +34,19 @@ public class MainPage extends BasePage {
 		User user = new User();
 		user.setUsername("testuser");
 		
-		add(new Label("username", new PropertyModel<User>(user, "username")));
+		add(new Label("username", new PropertyModel<ArcticWebSession>(this, "username")));
+		
+		Link<String> logoutLink = new Link<String>("logout_link") {			
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void onClick() {
+				ArcticWebSession.get().logout();
+				setResponsePage(FrontPage.class);
+			}
+		};
+		add(logoutLink);
 		
 	}
+		
 
 }

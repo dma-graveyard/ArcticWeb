@@ -24,6 +24,7 @@ import org.apache.wicket.request.Response;
 
 import dk.dma.arcticweb.site.pages.front.FrontPage;
 import dk.dma.arcticweb.site.pages.main.MainPage;
+import dk.dma.arcticweb.site.pages.test.TestPage;
 import dk.dma.arcticweb.site.session.ArcticWebSession;
 
 /**
@@ -43,6 +44,8 @@ public class ArcticWebApplication extends WebApplication {
 		
 		// Mount pages
 		mountPage("/main", MainPage.class);
+		mountPage("/front", FrontPage.class);
+		mountPage("/test", TestPage.class);
 	}
 	
 	@Override

@@ -15,6 +15,7 @@
  */
 package dk.dma.arcticweb.site.session;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.Request;
 
@@ -28,10 +29,13 @@ public class ArcticWebSession extends WebSession {
 	private User user = null;
 	
 	private static final long serialVersionUID = 1L;
+	
+	public static ArcticWebSession get() {
+		return (ArcticWebSession)Session.get();
+	}
 
 	public ArcticWebSession(Request request) {
-		super(request);
-		
+		super(request);		
 	}
 	
 	public User getUser() {
@@ -46,5 +50,8 @@ public class ArcticWebSession extends WebSession {
 		return (user != null);
 	}
 	
-
+	public void logout() {
+		this.user = null;
+	}
+	
 }

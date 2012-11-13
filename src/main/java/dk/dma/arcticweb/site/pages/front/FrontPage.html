@@ -26,7 +26,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="brand" href="./index.html"><font color="#0080C0">ArcticWeb</font><font color="#888888" size="3">Greenland</font></a>
+				<a class="brand" href="#"><font color="#0080C0">ArcticWeb</font><font color="#888888" size="3">Greenland</font></a>
 				<div class="nav-collapse collapse">
 					<p class="navbar-text pull-right">
 						<i class="icon-user icon-white" style="vertical-align:middle; margin-bottom: 4px"></i>
@@ -36,7 +36,7 @@
 					</p>
 					<ul class="nav">
 						<li class="active">
-							<a href="index.html">
+							<a href="front">
 								<i class="icon-home icon-white" style="vertical-align:middle; margin-bottom: 4px"></i> 
 								Home
 							</a>
@@ -68,14 +68,14 @@
 			<h2 id="myModalLabel">Sign in</h2>
 		</div>
 		<div class="modal-body">
-			<form class="form-signin">
-				<input type="text" class="input-block-level" placeholder="Email address">
-				<input type="password" class="input-block-level" placeholder="Password">
+			<form class="form-signin" wicket:id="login_form">
+				<input type="text" class="input-block-level" placeholder="Username" wicket:id="username"/>
+				<input type="password" class="input-block-level" placeholder="Password" wicket:id="password"/>
 				<label class="checkbox">
-					<input type="checkbox" value="remember-me"> Remember me
+					<input type="checkbox" value="remember-me"/> Remember me
 				</label>
 				<div style="margin-top:24px">
-					<button class="btn btn-primary">Sign in</button>
+					<input type="submit" class="btn btn-primary" value="Sign in"/>
 					<a href="#forgot" role="button" class="btn" data-toggle="modal" data-dismiss="modal">Forgot password</a>
 					<a href="#request" role="button" class="btn" data-toggle="modal" data-dismiss="modal">Request login</a>
 				</div>

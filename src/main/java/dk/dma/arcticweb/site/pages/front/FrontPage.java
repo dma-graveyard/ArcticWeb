@@ -15,41 +15,16 @@
  */
 package dk.dma.arcticweb.site.pages.front;
 
-import java.util.List;
-import java.util.Set;
-
-import com.google.inject.Inject;
-
-import dk.dma.arcticweb.domain.Ship;
-import dk.dma.arcticweb.domain.Stakeholder;
-import dk.dma.arcticweb.domain.User;
-import dk.dma.arcticweb.eao.StakeholderEao;
-import dk.dma.arcticweb.eao.UserEao;
 import dk.dma.arcticweb.site.pages.BasePage;
 
 public class FrontPage extends BasePage {
 	private static final long serialVersionUID = 1L;
 	
-	@Inject
-	private UserEao userEao;
-	@Inject
-	private StakeholderEao stakeholderEao;
-
 	public FrontPage() {
-		super();
-		
-		User user = userEao.getByUsername("obo");
-		System.out.println("user: "+ user);
-		
-		List<Stakeholder> stakeholders = stakeholderEao.getAll();
-		for (Stakeholder stakeholder : stakeholders) {
-			if (stakeholder instanceof Ship) {
-				Ship ship = (Ship)stakeholder;
-				System.out.println("mmsi: " + ship.getMmsi());
-				Set<User> users = ship.getUsers();
-				System.out.println("users: " + users.size());
-			}
-		}
+		super();		
 
+		LoginForm loginForm = new LoginForm("login_form");
+		add(loginForm);		
+		
 	}
 }

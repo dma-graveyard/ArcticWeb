@@ -1,5 +1,7 @@
 package dk.dma.arcticweb.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,14 +22,15 @@ import org.apache.commons.codec.digest.DigestUtils;
 })
 public class User extends AbstractEntity {
 	
-	private static final String PASSWORD_SALT = "fa26frADu8";
-	
 	private static final long serialVersionUID = 1L;
+	
+	private static final String PASSWORD_SALT = "fa26frADu8";	
 	
 	private String username;
 	private String passwordHash;
 	private String email;
-	private Stakeholder stakeholder;
+	private Date lastLogin;
+	private Stakeholder stakeholder;	
 	
 	public User() {
 		super();
@@ -68,8 +71,17 @@ public class User extends AbstractEntity {
 		this.email = email;
 	}
 	
+	@Column(nullable = true)
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+	
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+	
 	@ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = true)
 	public Stakeholder getStakeholder() {
 		return stakeholder;
 	}
@@ -77,7 +89,7 @@ public class User extends AbstractEntity {
 	public void setStakeholder(Stakeholder stakeholder) {
 		this.stakeholder = stakeholder;
 	}
-	
+		
 	@Transient
 	public void setPassword(String password) {
 		setPasswordHash(hashPassword(password));

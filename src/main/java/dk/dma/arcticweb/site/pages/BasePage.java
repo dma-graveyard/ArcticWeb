@@ -15,7 +15,6 @@
  */
 package dk.dma.arcticweb.site.pages;
 
-import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.WebPage;
 
 import dk.dma.arcticweb.site.session.ArcticWebSession;
@@ -32,8 +31,12 @@ public abstract class BasePage extends WebPage {
 	}
 	
 	@Override
-	public Session getSession() {
+	public ArcticWebSession getSession() {
 		return (ArcticWebSession)super.getSession();
+	}
+	
+	public String getUsername() {
+		return getSession().getUser().getUsername();
 	}
 	
 }
