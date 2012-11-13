@@ -7,7 +7,7 @@ public class OtherStakeholder extends Stakeholder {
 	private static final long serialVersionUID = 1L;
 
 	public OtherStakeholder() {
-	
+		
 	}
-	
+
 }
