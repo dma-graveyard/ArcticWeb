@@ -19,7 +19,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.PropertyModel;
 
-import dk.dma.arcticweb.domain.User;
 import dk.dma.arcticweb.site.pages.BasePage;
 import dk.dma.arcticweb.site.pages.front.FrontPage;
 import dk.dma.arcticweb.site.session.ArcticWebSession;
@@ -29,10 +28,6 @@ public class MainPage extends BasePage {
 	
 	public MainPage() {
 		super();
-		
-		// Just for testing
-		User user = new User();
-		user.setUsername("testuser");
 		
 		add(new Label("username", new PropertyModel<ArcticWebSession>(this, "username")));
 		

@@ -36,7 +36,9 @@ public abstract class BasePage extends WebPage {
 	}
 	
 	public String getUsername() {
-		return getSession().getUser().getUsername();
-	}
-	
+		if (getSession().isLoggedIn()) {
+			return getSession().getUser().getUsername();
+		}
+		return null;
+	}	
 }

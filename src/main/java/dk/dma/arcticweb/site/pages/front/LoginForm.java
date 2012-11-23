@@ -40,7 +40,7 @@ public class LoginForm extends StatelessForm<LoginForm> {
 		if (user != null) {
 			LOG.info("User logged in: " + username);
 			ArcticWebSession.get().setUser(user);
-			setResponsePage(MainPage.class);
+			setResponsePage(new MainPage());
 		} else {
 			error("Wrong username or password");
 		}
