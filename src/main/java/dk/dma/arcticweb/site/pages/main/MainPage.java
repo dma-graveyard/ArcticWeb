@@ -24,7 +24,6 @@ public class MainPage extends BasePage implements SecurePage {
 	
 	public MainPage() {
 		super();		
-		
 		add(new UserPanel("user_panel"));
 		
 	}

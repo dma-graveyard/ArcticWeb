@@ -15,19 +15,36 @@
  */
 package dk.dma.arcticweb.site.pages.front;
 
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+
 import dk.dma.arcticweb.site.pages.BasePage;
+import dk.dma.arcticweb.site.pages.main.MainPage;
 import dk.dma.arcticweb.site.pages.main.panel.UserPanel;
+import dk.dma.arcticweb.site.session.ArcticWebSession;
 
 public class FrontPage extends BasePage {
 	private static final long serialVersionUID = 1L;
 	
+	private WebMarkupContainer viewerMenu;
+	
 	public FrontPage() {
 		super();
-
 		LoginForm loginForm = new LoginForm("login_form");
 		add(loginForm);
-		
 		add(new UserPanel("user_panel"));
-		
+		viewerMenu = new WebMarkupContainer("viewer_menu");
+		viewerMenu.add(new BookmarkablePageLink<>("viewer_link", MainPage.class));
+		viewerMenu.setVisible(false);
+		add(viewerMenu);		
 	}
+	
+	@Override
+	protected void onConfigure() {
+		super.onConfigure();
+		if (viewerMenu != null) {
+			viewerMenu.setVisible(ArcticWebSession.get().isLoggedIn());
+		}
+	}
+	
 }

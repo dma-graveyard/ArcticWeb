@@ -3,20 +3,24 @@
 == General ==
 
 * New images without copyright restrictions
-* Text on site (MAB)
+* Text on site (MAB + Rikke + Dennis)
 * Behind HTTPS
 
 == Functionality ==
 
 === User and login ===
 
-* Login panel. Add to main and front.
-* DONE Protect MainPage. See chap 11 and Cookbook.
-* Login modal response on error?
 * Login modal with Ajax functionality (may solve the above)
+* Login modal response on error?
 * Login modal: Focus username when shown.
 * Remember me functionality (auto login)
-* Edit user details when clicking user name on secure pages
+* Edit user details when clicking user name
+
+* Request login
+
+
+* DONE Login panel. Add to main and front.
+* DONE Protect MainPage. See chap 11 and Cookbook.
 
 === AIS view ===
 

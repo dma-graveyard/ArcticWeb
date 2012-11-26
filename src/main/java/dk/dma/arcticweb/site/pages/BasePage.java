@@ -29,10 +29,10 @@ public abstract class BasePage extends WebPage {
 	public BasePage() {
 		super();		
 	}
-	
+
 	@Override
 	public ArcticWebSession getSession() {
-		return (ArcticWebSession)super.getSession();
+		return (ArcticWebSession) super.getSession();
 	}
-			
+
 }
