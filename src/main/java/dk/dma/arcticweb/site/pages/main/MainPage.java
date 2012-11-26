@@ -19,11 +19,12 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.PropertyModel;
 
+import dk.dma.arcticweb.site.SecurePage;
 import dk.dma.arcticweb.site.pages.BasePage;
 import dk.dma.arcticweb.site.pages.front.FrontPage;
 import dk.dma.arcticweb.site.session.ArcticWebSession;
 
-public class MainPage extends BasePage {
+public class MainPage extends BasePage implements SecurePage {
 	private static final long serialVersionUID = 1L;
 	
 	public MainPage() {
@@ -31,7 +32,7 @@ public class MainPage extends BasePage {
 		
 		add(new Label("username", new PropertyModel<ArcticWebSession>(this, "username")));
 		
-		Link<String> logoutLink = new Link<String>("logout_link") {			
+		Link<String> logoutLink = new Link<String>("logout_link") {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void onClick() {

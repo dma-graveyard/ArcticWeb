@@ -11,11 +11,11 @@
 === User and login ===
 
 * Login panel. Add to main and front.
-* Protect MainPage. See chap 11 and Cookbook.
+* DONE Protect MainPage. See chap 11 and Cookbook.
 * Login modal response on error?
 * Login modal with Ajax functionality (may solve the above)
 * Login modal: Focus username when shown.
-* Remember mee functionality (auto login)
+* Remember me functionality (auto login)
 * 
 
 === AIS view ===
@@ -26,6 +26,7 @@
 * Show "Your ship" panel if you are a ship
 * Zoom to own ship
 * Mark own ship if stakeholder ship
+* Protect proxy solution
   
 === Ship specifics ===
 
@@ -36,6 +37,10 @@
 === Distance tool ===
 
 * 
+
+== Operations ==
+
+* Make EJB3 solution and run on JBoss 7.1.3
 
 == Less important ==
 

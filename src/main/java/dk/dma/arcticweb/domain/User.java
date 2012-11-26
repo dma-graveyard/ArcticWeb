@@ -106,4 +106,14 @@ public class User extends AbstractEntity {
 		return DigestUtils.sha256Hex(DigestUtils.sha256Hex(password) + PASSWORD_SALT);
 	}
 	
+	public static void main(String[] args) {
+		String password = "qwerty";
+		if (args.length > 0) {
+			password = args[0];
+		}
+		String hash = hashPassword(password);
+		System.out.println("password     : " + password);
+		System.out.println("password hash: " + hash);
+	}
+	
 }

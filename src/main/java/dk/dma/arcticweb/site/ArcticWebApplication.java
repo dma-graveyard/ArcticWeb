@@ -40,7 +40,10 @@ public class ArcticWebApplication extends WebApplication {
 	@Override
 	public void init() {
 		super.init();
-		getComponentInstantiationListeners().add(new GuiceComponentInjector(this, new ArcticServletModule()));		
+		getComponentInstantiationListeners().add(new GuiceComponentInjector(this, new ArcticServletModule()));
+		
+		// Set security
+		getSecuritySettings().setAuthorizationStrategy(new AuthStrategy());
 		
 		// Mount pages
 		mountPage("/main", MainPage.class);

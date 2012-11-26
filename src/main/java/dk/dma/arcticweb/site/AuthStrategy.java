@@ -13,45 +13,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
-package dk.dma.arcticweb.site.session;
+package dk.dma.arcticweb.site;
 
-import org.apache.wicket.Session;
-import org.apache.wicket.protocol.http.WebSession;
-import org.apache.wicket.request.Request;
+import org.apache.wicket.authorization.strategies.page.SimplePageAuthorizationStrategy;
 
-import dk.dma.arcticweb.domain.User;
+import dk.dma.arcticweb.site.pages.front.FrontPage;
+import dk.dma.arcticweb.site.session.ArcticWebSession;
 
 /**
- * Session object
+ * Simple authentication strategy
  */
-public class ArcticWebSession extends WebSession {
+public class AuthStrategy extends SimplePageAuthorizationStrategy {
 
-	private User user = null;
-
-	private static final long serialVersionUID = 1L;
-
-	public static ArcticWebSession get() {
-		return (ArcticWebSession) Session.get();
+	public AuthStrategy() {
+		super(SecurePage.class, FrontPage.class);
 	}
 
-	public ArcticWebSession(Request request) {
-		super(request);
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public boolean isLoggedIn() {
-		return (user != null);
-	}
-
-	public void logout() {
-		this.user = null;
+	@Override
+	protected boolean isAuthorized() {
+		return (ArcticWebSession.get().isLoggedIn());
 	}
 
 }
