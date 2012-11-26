@@ -27,18 +27,12 @@ public abstract class BasePage extends WebPage {
 	private static final long serialVersionUID = 1L;
 
 	public BasePage() {
-		super();
+		super();		
 	}
 	
 	@Override
 	public ArcticWebSession getSession() {
 		return (ArcticWebSession)super.getSession();
 	}
-	
-	public String getUsername() {
-		if (getSession().isLoggedIn()) {
-			return getSession().getUser().getUsername();
-		}
-		return null;
-	}	
+			
 }

@@ -16,15 +16,18 @@
 package dk.dma.arcticweb.site.pages.front;
 
 import dk.dma.arcticweb.site.pages.BasePage;
+import dk.dma.arcticweb.site.pages.main.panel.UserPanel;
 
 public class FrontPage extends BasePage {
 	private static final long serialVersionUID = 1L;
 	
 	public FrontPage() {
-		super();		
+		super();
 
 		LoginForm loginForm = new LoginForm("login_form");
-		add(loginForm);		
+		add(loginForm);
+		
+		add(new UserPanel("user_panel"));
 		
 	}
 }

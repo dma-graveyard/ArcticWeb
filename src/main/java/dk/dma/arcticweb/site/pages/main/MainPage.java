@@ -15,32 +15,17 @@
  */
 package dk.dma.arcticweb.site.pages.main;
 
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.PropertyModel;
-
 import dk.dma.arcticweb.site.SecurePage;
 import dk.dma.arcticweb.site.pages.BasePage;
-import dk.dma.arcticweb.site.pages.front.FrontPage;
-import dk.dma.arcticweb.site.session.ArcticWebSession;
+import dk.dma.arcticweb.site.pages.main.panel.UserPanel;
 
 public class MainPage extends BasePage implements SecurePage {
 	private static final long serialVersionUID = 1L;
 	
 	public MainPage() {
-		super();
+		super();		
 		
-		add(new Label("username", new PropertyModel<ArcticWebSession>(this, "username")));
-		
-		Link<String> logoutLink = new Link<String>("logout_link") {
-			private static final long serialVersionUID = 1L;
-			@Override
-			public void onClick() {
-				ArcticWebSession.get().logout();
-				setResponsePage(FrontPage.class);
-			}
-		};
-		add(logoutLink);
+		add(new UserPanel("user_panel"));
 		
 	}
 		

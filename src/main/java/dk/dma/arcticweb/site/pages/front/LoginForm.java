@@ -35,7 +35,6 @@ public class LoginForm extends StatelessForm<LoginForm> {
 
 	@Override
 	protected final void onSubmit() {
-		LOG.info("Trying to login: " + username);
 		User user = userService.login(username, password);
 		if (user != null) {
 			LOG.info("User logged in: " + username);

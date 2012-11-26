@@ -16,7 +16,7 @@
 * Login modal with Ajax functionality (may solve the above)
 * Login modal: Focus username when shown.
 * Remember me functionality (auto login)
-* 
+* Edit user details when clicking user name on secure pages
 
 === AIS view ===
 
