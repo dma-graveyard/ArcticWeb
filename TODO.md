@@ -18,7 +18,6 @@
 
 * Request login
 
-
 * DONE Login panel. Add to main and front.
 * DONE Protect MainPage. See chap 11 and Cookbook.
 

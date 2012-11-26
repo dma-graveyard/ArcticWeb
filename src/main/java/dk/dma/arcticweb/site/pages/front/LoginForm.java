@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 
 import com.google.inject.Inject;
@@ -31,6 +32,7 @@ public class LoginForm extends StatelessForm<LoginForm> {
 		setModel(new CompoundPropertyModel<LoginForm>(this));
 		add(new TextField<String>("username").setRequired(true));
 		add(new PasswordTextField("password").setRequired(true));
+		add(new FeedbackPanel("login_feedback"));
 	}
 
 	@Override
