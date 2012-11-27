@@ -30,8 +30,11 @@ public class FrontPage extends BasePage {
 	
 	public FrontPage() {
 		super();
+		
 		LoginForm loginForm = new LoginForm("login_form");
+		loginForm.setOutputMarkupId(true);
 		add(loginForm);
+		
 		add(new UserPanel("user_panel"));
 		viewerMenu = new WebMarkupContainer("viewer_menu");
 		viewerMenu.add(new BookmarkablePageLink<>("viewer_link", MainPage.class));

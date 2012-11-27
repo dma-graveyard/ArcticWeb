@@ -1,6 +1,9 @@
 package dk.dma.arcticweb.site.pages.front;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
@@ -22,31 +25,48 @@ public class LoginForm extends StatelessForm<LoginForm> {
 	UserService userService;
 
 	private static final long serialVersionUID = 1L;
-
+	
 	private String username;
 	private String password;
 	private Boolean rememberMe;
-
+	
+	private TextField<String> usernameField;
+	private PasswordTextField passwordField;
+	private FeedbackPanel feedback;
+	private AjaxSubmitLink submitLink;
+	
 	public LoginForm(String id) {
 		super(id);
+		usernameField = new TextField<String>("username");
+		passwordField = new PasswordTextField("password");
+		feedback = new FeedbackPanel("login_feedback");
+		submitLink = new AjaxSubmitLink("login_btn") {
+			private static final long serialVersionUID = 1L;
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				System.out.println("Hello world: " + getUsername());
+				User user = userService.login(username, password);
+				if (user != null) {
+					LOG.info("User logged in: " + username);
+					ArcticWebSession.get().setUser(user);
+					setResponsePage(new MainPage());
+				} else {
+					feedback.setVisible(true);
+					error("Wrong username or password");
+					target.add(this.getParent());
+				}
+			}
+		};
+		
+		usernameField.setRequired(true);
+		passwordField.setRequired(true);
+		feedback.setVisible(false);
+		
 		setModel(new CompoundPropertyModel<LoginForm>(this));
-		add(new TextField<String>("username").setRequired(true));
-		add(new PasswordTextField("password").setRequired(true));
-		add(new FeedbackPanel("login_feedback"));
-	}
-
-	@Override
-	protected final void onSubmit() {
-		User user = userService.login(username, password);
-		if (user != null) {
-			LOG.info("User logged in: " + username);
-			ArcticWebSession.get().setUser(user);
-			continueToOriginalDestination();
-			setResponsePage(new MainPage());
-		} else {
-			LOG.info("Wrong username or password");
-			error("Wrong username or password");
-		}
+		add(usernameField);
+		add(passwordField);
+		add(feedback);
+		add(submitLink);
 	}
 
 	public String getUsername() {

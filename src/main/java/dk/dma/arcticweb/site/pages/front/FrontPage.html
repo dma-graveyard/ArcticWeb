@@ -72,16 +72,16 @@
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 			<h2 id="myModalLabel">Sign in</h2>
 		</div>
-		<div class="modal-body">			
-			<form class="form-signin" wicket:id="login_form">
-				<div wicket:id="login_feedback"></div>
-				<input type="text" class="input-block-level" placeholder="Username" wicket:id="username"/>
+		<div class="modal-body">
+			<form class="form-signin" wicket:id="login_form" name="login_form">
+				<span class="alert alert-error" wicket:id="login_feedback"></span>
+				<input type="text" class="input-block-level" placeholder="Username" wicket:id="username" name="username">
 				<input type="password" class="input-block-level" placeholder="Password" wicket:id="password"/>
 				<label class="checkbox">
 					<input type="checkbox" value="remember-me"/> Remember me
 				</label>
 				<div style="margin-top:24px">
-					<input type="submit" class="btn btn-primary" value="Sign in"/>
+					<input type="button" class="btn btn-primary" value="Sign in" wicket:id="login_btn"/>
 					<a href="#forgot" role="button" class="btn" data-toggle="modal" data-dismiss="modal">Forgot password</a>
 					<a href="#request" role="button" class="btn" data-toggle="modal" data-dismiss="modal">Request login</a>
 				</div>
