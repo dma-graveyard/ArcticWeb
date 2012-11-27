@@ -16,16 +16,19 @@ public class EaoImpl implements Eao {
 	protected EntityManager em;
 
 	@Override
+	@Transactional
 	public IEntity getByPrimaryKey(Class<? extends IEntity> clazz, Object id) {
 		return em.find(clazz, id);
 	}
 
 	@Override
+	@Transactional
 	public void remove(IEntity entity) {
 		em.remove(em.merge(entity));
 	}
 
 	@Override
+	@Transactional
 	public IEntity saveEntity(IEntity entity) {
 		if (entity.isPersisted()) {
 			// Update existing

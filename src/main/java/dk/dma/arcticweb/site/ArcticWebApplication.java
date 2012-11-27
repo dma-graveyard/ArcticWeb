@@ -22,6 +22,8 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 
+import com.google.inject.Guice;
+
 import dk.dma.arcticweb.site.pages.front.FrontPage;
 import dk.dma.arcticweb.site.pages.main.MainPage;
 import dk.dma.arcticweb.site.pages.test.TestPage;
@@ -40,7 +42,10 @@ public class ArcticWebApplication extends WebApplication {
 	@Override
 	public void init() {
 		super.init();
-		getComponentInstantiationListeners().add(new GuiceComponentInjector(this, new ArcticServletModule()));
+		
+		//getComponentInitializationListeners().add((IComponentInitializationListener) new GuiceComponentInjector(this, Guice.createInjector(new JpaModule())));
+		//getComponentInstantiationListeners().add(new GuiceComponentInjector(this, new JpaModule()));
+		getComponentInstantiationListeners().add(new GuiceComponentInjector(this, Guice.createInjector(new JpaModule())));
 		
 		// Set security
 		getSecuritySettings().setAuthorizationStrategy(new AuthStrategy());
