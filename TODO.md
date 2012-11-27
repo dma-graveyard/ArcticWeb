@@ -10,16 +10,18 @@
 
 === User and login ===
 
-* Login modal with Ajax functionality (may solve the above)
-* Login modal response on error?
 * Login modal: Focus username when shown.
 * Remember me functionality (auto login)
 * Edit user details when clicking user name
-
+* Request login modal
+* Forgot password
 * Request login
 
-* DONE Login panel. Add to main and front.
-* DONE Protect MainPage. See chap 11 and Cookbook.
+
+=== Front page ===
+
+* About modal
+* Contact modal with input form for feedback
 
 === AIS view ===
 
@@ -39,14 +41,9 @@
 
 === Distance tool ===
 
-* 
+*
 
 == Operations ==
 
 * Make EJB3 solution and run on JBoss 7.1.3
 
-== Less important ==
-
-* Forgot password
-* Request login
-* 
