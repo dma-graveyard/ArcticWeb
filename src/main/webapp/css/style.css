@@ -39,6 +39,11 @@ body {
 	line-height: 40px;
 }
 
+.feedbackPanel
+{
+    list-style-type: none;
+}
+
 /* Faded out hr */
 hr.soften {
   height: 1px;

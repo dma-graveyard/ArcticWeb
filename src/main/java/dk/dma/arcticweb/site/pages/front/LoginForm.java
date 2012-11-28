@@ -40,6 +40,7 @@ public class LoginForm extends StatelessForm<LoginForm> {
 		usernameField = new TextField<String>("username");
 		passwordField = new PasswordTextField("password");
 		feedback = new FeedbackPanel("login_feedback");
+		feedback.setVisible(false);
 		submitLink = new AjaxSubmitLink("login_btn") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -47,8 +48,9 @@ public class LoginForm extends StatelessForm<LoginForm> {
 				System.out.println("Hello world: " + getUsername());
 				User user = userService.login(username, password);
 				if (user != null) {
+					feedback.setVisible(false);
 					LOG.info("User logged in: " + username);
-					ArcticWebSession.get().setUser(user);
+					ArcticWebSession.get().setUser(user);					
 					setResponsePage(new MainPage());
 				} else {
 					feedback.setVisible(true);
@@ -59,8 +61,7 @@ public class LoginForm extends StatelessForm<LoginForm> {
 		};
 		
 		usernameField.setRequired(true);
-		passwordField.setRequired(true);
-		feedback.setVisible(false);
+		passwordField.setRequired(true);		
 		
 		setModel(new CompoundPropertyModel<LoginForm>(this));
 		add(usernameField);

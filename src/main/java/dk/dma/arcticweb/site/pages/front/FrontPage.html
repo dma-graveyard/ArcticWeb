@@ -74,7 +74,9 @@
 		</div>
 		<div class="modal-body">
 			<form class="form-signin" wicket:id="login_form" name="login_form">
-				<span class="alert alert-error" wicket:id="login_feedback"></span>
+				<wicket:enclosure>
+					<div class="alert alert-error" wicket:id="login_feedback">xxx</div>
+				</wicket:enclosure>
 				<input type="text" class="input-block-level" placeholder="Username" wicket:id="username" name="username">
 				<input type="password" class="input-block-level" placeholder="Password" wicket:id="password"/>
 				<label class="checkbox">
