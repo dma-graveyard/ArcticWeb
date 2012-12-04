@@ -18,7 +18,6 @@
 * Forgot password
 * Request login
 
-
 === Front page ===
 
 * About modal
@@ -26,13 +25,16 @@
 
 === AIS view ===
 
-* Do not reload on re-position
-* Auto reload once a minute
-* Experiment with ENC chart and other projections
 * Show "Your ship" panel if you are a ship
 * Zoom to own ship
 * Mark own ship if stakeholder ship
+
 * Protect proxy solution
+
+* Do not reload on re-position
+* Auto reload once a minute
+* Experiment with ENC chart and other projections
+
   
 === Ship specifics ===
 

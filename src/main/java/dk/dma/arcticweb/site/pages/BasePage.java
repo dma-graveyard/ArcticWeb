@@ -17,6 +17,7 @@ package dk.dma.arcticweb.site.pages;
 
 import org.apache.wicket.markup.html.WebPage;
 
+import dk.dma.arcticweb.domain.User;
 import dk.dma.arcticweb.site.session.ArcticWebSession;
 
 /**
@@ -33,6 +34,10 @@ public abstract class BasePage extends WebPage {
 	@Override
 	public ArcticWebSession getSession() {
 		return (ArcticWebSession) super.getSession();
+	}
+	
+	public User getUser() {
+		return getSession().getUser();
 	}
 
 }

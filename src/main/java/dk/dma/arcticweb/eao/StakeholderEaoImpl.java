@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import dk.dma.arcticweb.domain.Ship;
 import dk.dma.arcticweb.domain.Stakeholder;
 
 public class StakeholderEaoImpl extends EaoImpl implements StakeholderEao {
@@ -15,6 +16,10 @@ public class StakeholderEaoImpl extends EaoImpl implements StakeholderEao {
 		return query.getResultList();
 	}
 
+	@Override
+	public Ship getShip(int id) {
+		return em.find(Ship.class, id);
+	}
 	
 
 }
