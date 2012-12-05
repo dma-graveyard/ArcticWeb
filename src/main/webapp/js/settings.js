@@ -8,7 +8,7 @@ var focusZoom = 11;					// The zoom level when focus is changed to specific vess
 var vesselZoomLevel = 8;			// The maximum zoom level for which to draw vessels
 
 // Loading
-var loadAllVessels = false;			// Whether or not to load all vessels in the world.
+var loadAllVessels = true;			// Whether or not to load all vessels in the world.
 var loadFixedAreaSize = true;		// Whether or not to load a fixed area size when zoom level is higher than
 									// vesselZoomLevel. If set to false, it will always load the size of the
 									// viewport. If set to true it will always load the area size specified
@@ -28,7 +28,7 @@ var detailsUrl = 'json_proxy/vessel_target_details';
 var searchUrl = 'json_proxy/vessel_search';
 
 // Clustering
-var includeClustering = true;
+var includeClustering = false;
 var clusterLimit = 1;
 var showIndividualVessels = true;
 var clusterSizes = [
@@ -43,12 +43,12 @@ var clusterSizes = [
 ];
 
 // Event feeds
-var includeEventFeed = true;			// Whether or not to load and show event feeds
+var includeEventFeed = false;			// Whether or not to load and show event feeds
 var loadBehaviorsFrequence = 10000;		// The number of milliseconds between each abnormal behavior load
 var feedLifeTime = 15;					// The number of minutes event feeds are kept alive
 
 // Abnormal behavior
-var includeAbnormalBehaviorPanel = true;// Whether or not to load and show the abnormal behavior panel
+var includeAbnormalBehaviorPanel = false;// Whether or not to load and show the abnormal behavior panel
 
 // Searching
 var searchResultsLimit = 1000;			// The number of search results that will be shown in the list
@@ -57,7 +57,7 @@ var searchResultsShowPositon = false;	// Whether or not to show the position in 
 // Past tracks and time stamps
 var includePastTracks = true;			// Whether or not to show past tracks of selected vessels
 var includeTimeStamps = true;			// Whether or not to show time stamps on past tracks
-var includeTimeStampsOnCL = false;			// Whether or not to show time stamps on past tracks
+var includeTimeStampsOnCL = false;		// Whether or not to show time stamps on past tracks
 var tracksBetweenTimeStampsVL = 10;		// The number of tracks (single lines) between each timestamp on 
 										// vessel level
 var tracksBetweenTimeStampsCL = 20;		// The number of tracks (single lines) between each timestamp on 
@@ -67,8 +67,8 @@ var tracksBetweenTimeStampsCL = 20;		// The number of tracks (single lines) betw
 /***********************
  * Tools
  **********************/
-var includeAdvancedTools = true;
-var includeAbnormalBehaviorTool = true;
+var includeAdvancedTools = false;
+var includeAbnormalBehaviorTool = false;
 
 
 /***********************
@@ -78,9 +78,9 @@ var includeStatusPanel = true;
 var includeLoadingPanel = true;
 var includeLegendsPanel = true;
 var includeSearchPanel = true;
-var includeFilteringPanel = true;
+var includeFilteringPanel = false;
 var includeDetailsPanel = true;
-var includeFeedPanel = true;
+var includeFeedPanel = false;
 	var feedPanelExpandedWidth = '420px'	// CSS class .arrowUpWide needs to have same width minus 10
 var includeZoomPanel = true;
 	var zoomPanelPositionLeft = '248px';
