@@ -45,4 +45,12 @@ function Vessel(vesselId, vessel, markerScale) {
 	this.imageXOffset = -this.imageWidth/2;
 	
 	this.degree = vessel[0];
+
+	// Not anonymous
+	if (vessel.length > 6){
+		this.mmsi = vessel[6];
+		this.vesselName = vessel[7];
+		this.imo = vessel[9];
+	}
+
 }

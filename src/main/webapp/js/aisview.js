@@ -1,22 +1,8 @@
-// Settings
-var initialLat = 56.00;
-var initialLon = 11.00;
-var initialZoom = 10;
-var focusZoom = 10;
-var worldZoom = 3;
-var minZoomLevel = 1;
-var positionUpdate = 20*1000;	// The number of milliseconds between each position update
-var listUrl = 'json_proxy/vessel_list';
-var detailsUrl = 'json_proxy/vessel_target_details';
-var searchUrl = 'json_proxy/vessel_search';
-
 // Global variables
 var map;
 var vessels = [];
-var vesselLayer;
-var selectionLayer;
-var tracksLayer;
-var timeStampsLayer;
+var clusters = [];
+var clustersDrawn = 0;
 var topLeftPixel;
 var botRightPixel;
 var filterQuery = {};
@@ -25,10 +11,15 @@ var savedTracks;
 var savedTimeStamps;
 var loadSavedFeatures = false;
 var timeOfLastLoad = 0;
+var selectSearchedVessel = false;
+var searchedVessel;
 var selectedVessel;
 var selectedVesselInView = false;
 var selectedFeature;
-var vesselsResults = [];
+var searchResults = [];
+var lastRequestId = 0;
+var lastZoomLevel;
+var lastLoadArea;
 
 /**
  * Sets up the map by adding layers and overwriting 
@@ -36,121 +27,39 @@ var vesselsResults = [];
  * Vessels are loaded using JSON and drawn on the map.
  */
 function setupMap(){
+
+	includePanels();
+
+	includeTools();
 	
 	// Load cookies
 	loadView();
 
 	// Create the map and overwrite cotent of the map element
-	map = new OpenLayers.Map('map');
-
-	// Get renderer
-	var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
-	renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
-	// renderer = ["Canvas", "SVG", "VML"];
 	
-	// Create vector layer with a stylemap for vessels
-	vesselLayer = new OpenLayers.Layer.Vector(
-			"Vessels",
-			{
-				styleMap: new OpenLayers.StyleMap({
-					"default": {
-						externalGraphic: "${image}",
-						graphicWidth: "${imageWidth}",
-						graphicHeight: "${imageHeight}",
-						graphicYOffset: "${imageYOffset}",
-						graphicXOffset: "${imageXOffset}",
-						rotation: "${angle}"
-					},
-					"select": {
-						cursor: "crosshair",
-						externalGraphic: "${image}"
-					}
-				}),
-				renderers: renderer
-			}
-		);
-
-	map.addLayer(vesselLayer);
-
-	// Create vector layer with a stylemap for the selection image
-	selectionLayer = new OpenLayers.Layer.Vector(
-			"Selection",
-			{
-				styleMap: new OpenLayers.StyleMap({
-					"default": {
-						externalGraphic: "${image}",
-						graphicWidth: "${imageWidth}",
-						graphicHeight: "${imageHeight}",
-						graphicYOffset: "${imageYOffset}",
-						graphicXOffset: "${imageXOffset}",
-						rotation: "${angle}"
-					},
-					"select": {
-						cursor: "crosshair",
-						externalGraphic: "${image}"
-					}
-				}),
-				renderers: renderer
-			}
-		);
-		
-	map.addLayer(selectionLayer);
-
-	// Create vector layer for past tracks
-	tracksLayer = new OpenLayers.Layer.Vector("trackLayer", {
-        styleMap: new OpenLayers.StyleMap({'default':{
-            strokeColor: "#CC2222",
-            strokeOpacity: 1,
-            strokeWidth: 3
-        }})
+	map = new OpenLayers.Map({
+        div: "map",
+        projection: "EPSG:900913",
+        fractionalZoom: true
     });
-
-	// Create vector layer for time stamps
-	timeStampsLayer = new OpenLayers.Layer.Vector("timeStampsLayer", {
-        styleMap: new OpenLayers.StyleMap({'default':{
-            label : "${timeStamp}",
-			fontColor: "#222222",
-			fontSize: "11px",
-			fontFamily: "'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif",
-			fontWeight: "bold",
-			labelAlign: "${align}",
-			labelXOffset: "${xOffset}",
-			labelYOffset: "${yOffset}",
-			labelOutlineColor: "#eaeaea",
-			labelOutlineWidth: 5,
-			labelOutline:1
-        }})
-    });
-
-	map.addLayer(tracksLayer); 
-	map.addControl(new OpenLayers.Control.DrawFeature(tracksLayer, OpenLayers.Handler.Path));  
-
-	map.addLayer(timeStampsLayer); 
-
-	// Add OpenStreetMap Layer
-	var osm = new OpenLayers.Layer.OSM(
-		"OSM",
-		"http://a.tile.openstreetmap.org/${z}/${x}/${y}.png",
-		{
-			'layers':'basic',
-			'isBaseLayer': true
-		} 
-	);
-	
-	// Add OpenStreetMap Layer
-	map.addLayer(osm);
-	// Add KMS Layer
-	//addKMSLayer();
+    
+	addLayers();
 
 	var center = transformPosition(initialLon, initialLat);
 	map.setCenter (center, initialZoom);
+	lastZoomLevel = map.zoom;
 	
 	// Load new vessels with an interval
-	setInterval("loadVesselsIfTime()", positionUpdate/10);
+	setInterval("loadVesselsIfTime()", loadCheckingFrequence);
+
+	if (includeEventFeed){
+		setInterval("loadBehaviors()", loadBehaviorsFrequence);
+		loadBehaviors();
+	}
 	
 	setupUI();
 	
-	//parseFilterQuery(); // FILTER PANEL NOT IN USE
+	parseFilterQuery();
 
 	// Load vessels
 	loadVessels();
@@ -158,91 +67,359 @@ function setupMap(){
 }
 
 /**
- * Loads vessels if time since last update is higher than positionUpdate. 
+ * Loads vessels if time since last update is higher than loadFrequence. 
  */
 function loadVesselsIfTime(){
+
 	var timeSinceLastLoad = new Date().getTime() - timeOfLastLoad;
-	if (timeOfLastLoad == 0 || timeSinceLastLoad >= positionUpdate){
-		timeSinceLastLoad = 0;
+	
+	if (timeOfLastLoad == 0 || timeSinceLastLoad >= loadFrequence){
 		loadVessels();
 	}	
+	
+}
+
+/**
+ * Loads vessels in the specified amount of time.
+ */
+function setTimeToLoad(ms){
+
+	var timeSinceLastLoad = new Date().getTime() - timeOfLastLoad;
+
+	timeOfLastLoad -= (loadFrequence - timeSinceLastLoad);
+	timeOfLastLoad += ms;
+
 }
 
 
 /**
- * Loads the vessels using JSON and adds each vessel
- * as a vessel instance to the list of vessels.
+ * Loads the vessels using JSON.
+ * If the zoom level is higher than or equal to the 
+ * minimum zoom level it adds each vessel as a vessel 
+ * instance to the list of vessels.
  * The vessels will be drawn when the JSON is received.
+ * If the zoom level is lower than the minumum zoom level,
+ * it draws the vesselclusters instead.
  */
 function loadVessels(){
 
 	// Reset list of vessels
 	vessels = [];
-			
-	// Show Loading bar
-	$("#loadingBar").css('visibility', 'visible');
-	
-	// Position loading bar
-	var x = $(document).width() / 2 - $("#loadingBar").width() / 2;
-	$("#loadingBar").css('left', x);
+	clusters = [];
 
-	// Get points from viewport
-	var viewportWidth = $(map.getViewport()).width();
-	var viewportHeight = $(map.getViewport()).height();
-	topLeftPixel = new OpenLayers.Pixel(0,0);
-	botRightPixel = new OpenLayers.Pixel(viewportWidth, viewportHeight);
+	if (map.zoom >= vesselZoomLevel || loadAllVessels){
 
-	var top = map.getLonLatFromPixel(topLeftPixel).transform(
-			map.getProjectionObject(), // from Spherical Mercator Projection
-			new OpenLayers.Projection("EPSG:4326") // to WGS 1984
-		);
-	var bot = map.getLonLatFromPixel(botRightPixel).transform(
-			map.getProjectionObject(), // from Spherical Mercator Projection
-			new OpenLayers.Projection("EPSG:4326") // to WGS 1984
-		);
-		
-	//console.log("Requesting vessels from: " + top.lon + " " + top.lat + " to " + bot.lon + " " + bot.lat);
-	
-	filterQuery.topLon = top.lon; 
-	filterQuery.topLat = top.lat; 
-	filterQuery.botLon = bot.lon; 
-	filterQuery.botLat = bot.lat; 
-				
-	$.getJSON(listUrl, 
-			filterQuery, 
-			function (result) {
-			
-		// Update vessel counter
-		$("#vesselsWorld").html(result.vesselsInWorld);
+		// Show Loading panel
+		$("#loadingPanel").css('visibility', 'visible');
 
-		// Load new vessels
-		var JSONVessels = result.vesselList.vessels;
-		
-		for (vesselId in JSONVessels) {
-			// Create vessel based on JSON data
-			var vesselJSON = JSONVessels[vesselId];
-			var vessel = new Vessel(vesselId, vesselJSON, 1);
+		loadVesselList();
+
+		clusterLayer.setVisibility(false);
+		clusterTextLayer.setVisibility(false);
+		indieVesselLayer.setVisibility(false);
+
+		vesselLayer.setVisibility(true);
+
+		selectControlVessels.activate();
+		selectControlIndieVessels.deactivate();
+
+	} else {
+
+		if (includeClustering){
+
+			// Show Loading panel
+			$("#loadingPanel").css('visibility', 'visible');
 			
-			if (vessels[vesselId]) {
-				// Vessel exists just update data
-				vessels[vesselId] = vessel;
-			} else {
-				vessels.push(vessel);
-			}
-			
+			loadVesselClusters();
+
+			clusterLayer.setVisibility(true);
+			clusterTextLayer.setVisibility(true);
+			indieVesselLayer.setVisibility(true);
+
 		}
-		
-		// Draw vessels
-		drawVessels();
 
-		// Hide Loading bar
-		$("#loadingBar").css('visibility', 'hidden');
-		
-		// Set time of load
-		timeOfLastLoad = new Date().getTime();
-	});
+		vesselLayer.setVisibility(false);
+		selectControlVessels.deactivate();
+		selectControlIndieVessels.activate();
+
+	}
+
+	// Set time of load
+	timeOfLastLoad = new Date().getTime();
+
 }
 
+/**
+ * Loads and draws all vessels in the view.
+ */
+function loadVesselList(){
+
+	saveViewPort();
+
+	// Generate data
+	var data = filterQuery;
+	lastRequestId++;
+	data.requestId = lastRequestId;
+	if (!loadViewportOnly || loadAllVessels){
+		delete data.topLon; 
+		delete data.topLat; 
+		delete data.botLon; 
+		delete data.botLat;
+	}
+	if (loadFixedAreaSize && !loadAllVessels){
+		lastLoadArea = getSpecificLoadArea();
+		data.topLon = lastLoadArea.top.lon; 
+		data.topLat = lastLoadArea.top.lat; 
+		data.botLon = lastLoadArea.bot.lon; 
+		data.botLat = lastLoadArea.bot.lat;
+	}
+
+	$.getJSON(listUrl, data, 
+		function (result) {
+
+			if (result.requestId != lastRequestId) return;
+			
+			// Update vessel counter
+			$("#vesselsTotal").html(result.vesselsInWorld);
+
+			// Load new vessels
+			var JSONVessels = result.vesselList.vessels;
+		
+			for (vesselId in JSONVessels) {
+				// Create vessel based on JSON data
+				var vesselJSON = JSONVessels[vesselId];
+				var vessel = new Vessel(vesselId, vesselJSON, 1);
+			
+				if (selectedVessel && vesselId == selectedVessel.id && !selectSearchedVessel) {
+					// Update selected vessel
+					selectedVessel = vessel;
+				} else if (selectSearchedVessel && searchedVessel && vesselId == searchedVessel.id) {
+					// Update selected vessel
+					selectedVessel = vessel;
+					vessels.push(vessel);
+				}
+
+				vessels.push(vessel);
+			
+			}
+		
+			// Draw vessels
+			drawVessels();
+
+			selectSearchedVessel = false;
+
+			// Hide Loading panel
+			$("#loadingPanel").css('visibility', 'hidden');
+		}
+	);
+}
+
+/**
+ * Loads and draws the vessel clusters.
+ */
+function loadVesselClusters(){
+
+	saveViewPort();
+
+	// Find cluster size
+	var size = 10;
+	for (i in clusterSizes){
+		if (map.zoom >= clusterSizes[i].zoom){
+			size = clusterSizes[i].size;
+			//break;
+		}
+	}
+
+	// Generate data
+	var data = filterQuery;
+	data.clusterLimit = clusterLimit;
+	data.clusterSize = size;
+	lastRequestId++;
+	data.requestId = lastRequestId;
+	if (!loadViewportOnly){
+		delete data.topLon; 
+		delete data.topLat; 
+		delete data.botLon; 
+		delete data.botLat;
+	}
+	
+	$.getJSON(clusterUrl, data, 
+		function (result) {
+
+			if (result.requestId != lastRequestId) return;
+			
+			// Update vessel counter
+			$("#vesselsTotal").html(result.vesselsInWorld);
+
+			// Load vessel clusters
+			var JSONClusters = result.clusters;
+
+			for (clusterId in JSONClusters) {
+			
+				// Create vessel based on JSON data
+				var JSONCluster = JSONClusters[clusterId];
+				var from = transformPosition(JSONCluster.from.longitude, JSONCluster.from.latitude);
+				var to = transformPosition(JSONCluster.to.longitude, JSONCluster.to.latitude);
+				var count = JSONCluster.count;
+				var density = JSONCluster.density;
+				var vessels = JSONCluster.vessels.vessels;
+				
+				var cluster = new Cluster(from, to, count, density, vessels);
+				clusters.push(cluster);
+				
+			}
+		
+			// Draw clusters
+			drawClusters();
+
+			// Hide Loading panel
+			$("#loadingPanel").css('visibility', 'hidden');
+
+		}
+	);
+	
+}
+
+/**
+ * Draws the vessel clusters.
+ */
+function drawClusters(){
+
+	// Reset
+	clusterTextLayer.removeAllFeatures();
+	clusterLayer.removeAllFeatures();
+	var selectionFeatures = [];
+	selectedVesselInView = false;
+	var vesselsInView = 0;
+
+	// Remove old features except selected feature
+	var arr = indieVesselLayer.features.slice();
+	var idx = arr.indexOf(selectedFeature);
+	if(idx!=-1) arr.splice(idx, 1);
+	indieVesselLayer.destroyFeatures(arr);
+	indieVesselLayer.renderer.clear();
+
+	// Draw
+	for(id in clusters){
+		if (clusters[id].count > clusterLimit){
+
+			drawCluster(clusters[id]);
+
+			vesselsInView += clusters[id].count;
+			
+		} else {
+
+			drawIndieVessels(clusters[id]);
+
+			vesselsInView += clusters[id].count;
+			
+		}
+
+    }
+
+    // Set vessel in focus if selected
+	vesselInFocus(selectedVessel, selectedFeature);
+
+    // Draw selected vessel
+    if (selectedVessel){
+		drawIndieVessel(selectedVessel);
+    }
+
+	// Draw selection
+	addSelectionFeature();
+	selectionLayer.redraw();
+	indieVesselLayer.redraw();
+	drawPastTrack(null);
+
+    // Update number of vessels
+	$("#vesselsView").html(""+vesselsInView);
+    
+}
+
+/**
+ * Draws a vessel cluster.
+ */
+function drawCluster(cluster){
+
+	// Create polygon
+	var points = [
+		new OpenLayers.Geometry.Point(cluster.from.lon, cluster.from.lat),
+		new OpenLayers.Geometry.Point(cluster.to.lon, cluster.from.lat),
+		new OpenLayers.Geometry.Point(cluster.to.lon, cluster.to.lat),
+		new OpenLayers.Geometry.Point(cluster.from.lon, cluster.to.lat)
+	];
+	var ring = new OpenLayers.Geometry.LinearRing(points);
+	var polygon = new OpenLayers.Geometry.Polygon([ring]);
+
+	// Create feature
+	var feature = new OpenLayers.Feature.Vector(polygon,
+	 	{	
+			from: cluster.from,
+			to: cluster.to,
+			fill: findClusterColor(cluster)
+		}
+	);
+	clusterLayer.addFeatures([feature]);
+
+	// Draw text
+	var textLon = cluster.from.lon + (cluster.to.lon - cluster.from.lon) / 2;
+	var textLat = cluster.from.lat + (cluster.to.lat - cluster.from.lat) / 2;
+	var textPos = new OpenLayers.Geometry.Point(textLon, textLat);
+	var textFeature = new OpenLayers.Feature.Vector(textPos,
+		{
+			count: cluster.count,
+			fontSize: clusterFontSize
+		}
+	);
+	clusterTextLayer.addFeatures([textFeature]);
+
+}
+
+/**
+ * Draws the individual vessels in a cluster.
+ */
+function drawIndieVessels(cluster){
+
+	if (showIndividualVessels){
+
+		$.each( clusters[id].vessels, function(i, n){
+
+			drawIndieVessel(n);
+			
+		});
+
+	}
+
+}
+
+/**
+ * Draws an individual vessel.
+ */
+function drawIndieVessel(vessel){
+
+	// Add feature
+	var loc = transformPosition(vessel.lon, vessel.lat);
+	var geom = new OpenLayers.Geometry.Point(loc.lon, loc.lat);
+	var attr = {	
+	 		id: vessel.id,
+			type: "indie",
+			vessel: vessel,
+			angle: vessel.degree
+		};
+
+	if (selectedVessel && vessel.id == selectedVessel.id && selectedFeature.attributes.type == "indie"){
+
+		selectedFeature.attributes = attr;
+		selectedFeature.geometry = geom;
+
+	} else {
+	
+		feature = new OpenLayers.Feature.Vector(geom, attr);
+		indieVesselLayer.addFeatures([feature]);
+
+	}
+
+}
 
 /**
  * Draws all known vessels using vector points styled to show images.
@@ -255,25 +432,13 @@ function drawVessels(){
 	var selectionFeatures = [];
 	selectedVesselInView = false;
 
-	// Draw all vessels or search results
-	vesselsToDraw = vessels;
-	if (map.zoom < minZoomLevel){
-		vesselsToDraw = vesselsResults;
-	}
-
 	// Update number of vessels
-	$("#vesselsView").html(""+vesselsToDraw.length);
+	$("#vesselsView").html(""+vessels.length);
 	
 	// Iterate through vessels where value refers to each vessel.
-	$.each(vesselsToDraw, function(key, value) { 
-		
-		// Use styled vector points
-		var feature = new OpenLayers.Feature.Vector(
-			new OpenLayers.Geometry.Point( value.lon , value.lat ).transform(
-				new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-				map.getProjectionObject() // to Spherical Mercator Projection
-			),
-		 	{	
+	$.each(vessels, function(key, value) { 
+
+		var attr = {	
 				id: value.id,
 				angle: value.degree - 90, 
 				opacity:1, 
@@ -282,33 +447,82 @@ function drawVessels(){
 				imageHeight: value.imageHeight,
 				imageYOffset: value.imageYOffset,
 				imageXOffset: value.imageXOffset,
-				isVessel: true,
+				type: "vessel",
 				vessel: value
 			}
-		);
+
+		var geom = new OpenLayers.Geometry.Point( value.lon , value.lat ).transform(
+					new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+					map.getProjectionObject() // to Spherical Mercator Projection
+				);
+
+		if (selectedVessel && selectedFeature && value.id == selectedVessel.id && selectedFeature.attributes.type == "vessel"){
+
+			selectedFeature.attributes = attr;
+			selectedFeature.geometry = geom;
+
+		} else {
 		
-		vesselFeatures.push(feature);
+			// Use styled vector points
+			var feature = new OpenLayers.Feature.Vector(geom, attr);
 
-		// Set vessel in focus if searched
-		if (selectedVessel && value.id == selectedVessel.id){
+			vesselFeatures.push(feature);
 
-			selectedVesselInView = true;
-
-			// Update selected vessel
-			selectedVessel = value;
-			selectedFeature = feature;
-
-			// Update vessel details
-			updateVesselDetails(feature);
-
+			if (selectSearchedVessel && searchedVessel && searchedVessel.id == value.id){
+				selectedFeature = feature;
+			}
+			
 		}
+		
 	});
 
-	var selectionFeature;
+	// Set vessel in focus if selected
+	vesselInFocus(selectedVessel, selectedFeature);
 
-	// Set search result in focus
+	// Remove old features except selected feature
+	var arr = vesselLayer.features.slice();
+	var idx = arr.indexOf(selectedFeature);
+	if(idx!=-1) arr.splice(idx, 1);
+	vesselLayer.addFeatures(vesselFeatures);
+	vesselLayer.destroyFeatures(arr);
+
+	// Redraw
+	addSelectionFeature();
+	vesselLayer.renderer.clear();
+	vesselLayer.redraw();
+	selectionLayer.redraw();
+	drawPastTrack(null);
+
+}
+
+/**
+ * Sets a vessel in focus if it is selected.
+ */
+function vesselInFocus(vessel, feature){
+
+	if (selectedVessel && feature && vessel.id == selectedVessel.id){
+
+		selectedVesselInView = true;
+
+		// Update selected vessel
+		selectedVessel = vessel;
+		selectedFeature = feature;
+
+		// Update vessel details
+		updateVesselDetails(feature.attributes.id);
+
+	}
+
+}
+
+/**
+ * Adds the selection feature if a feature is selected.
+ */
+function addSelectionFeature(){
+
+	// Add selection
 	if (selectedFeature && selectedVesselInView){
-		selectionFeature = new OpenLayers.Feature.Vector(
+		var selectionFeature = new OpenLayers.Feature.Vector(
 			new OpenLayers.Geometry.Point( selectedFeature.geometry.x , selectedFeature.geometry.y ),
 		 	{	
 				id: -1,
@@ -319,22 +533,14 @@ function drawVessels(){
 				imageHeight: 32,
 				imageYOffset: -16,
 				imageXOffset: -16,
-				isVessel: false
+				type: "selection"
 			}
 		);
 		
-		selectionFeatures.push(selectionFeature);
+		selectionLayer.removeAllFeatures();
+		selectionLayer.addFeatures([selectionFeature]);
 
 	}
-
-	// Redraw vessels and selection
-	vesselLayer.removeAllFeatures();
-	selectionLayer.removeAllFeatures();
-	vesselLayer.addFeatures(vesselFeatures);
-	selectionLayer.addFeatures(selectionFeatures);
-	vesselLayer.redraw();
-	selectionLayer.redraw();
-	drawPastTrack(null);
 
 }
 
@@ -360,13 +566,13 @@ function redrawSelection(){
 				imageHeight: 32,
 				imageYOffset: -16,
 				imageXOffset: -16,
-				isVessel: false
+				type: "selection"
 			}
 		);
 		
 		selectionFeatures.push(selectionFeature);
 		selectedVesselInView = true;
-		updateVesselDetails(selectedFeature);
+		updateVesselDetails(selectedFeature.attributes.id);
 
 	}
 
@@ -388,13 +594,22 @@ function drawPastTrack(tracks) {
 	tracksLayer.removeAllFeatures();
 	timeStampsLayer.removeAllFeatures();
 
+	// Get time stamp distance
+	var CL = false;
+	var tracksBetweenTimeStamps;
+	if (map.zoom >= vesselZoomLevel){
+		tracksBetweenTimeStamps	= tracksBetweenTimeStampsVL;
+	} else {
+		tracksBetweenTimeStamps	= tracksBetweenTimeStampsCL;	
+		CL = true;
+	}
+
 	// Draw tracks
-	if (selectedVesselInView && tracks){
+	if (selectedVesselInView && tracks && includePastTracks){
 		var lastLon;
 		var lastLat;
 		var firstPoint = true;
 		var untilTimeStamp = 0;
-		var tracksBetweenTimeStamps = 80;
 
 		for(track in tracks) {
 			var currentTrack = tracks[track];
@@ -414,14 +629,21 @@ function drawPastTrack(tracks) {
 				tracksLayer.addFeatures([lineFeature]);
 
 				// Insert timeStamp?
-				if (untilTimeStamp == 0 && parseInt(track) + 10 < tracks.length){
+				if (untilTimeStamp == 0 
+						&& parseInt(track) + tracksBetweenTimeStamps < tracks.length
+						&& includeTimeStamps
+						&& (includeTimeStampsOnCL || !CL)){
 
 					var timeStampPos = points[0];
 					var timeStampFeature = new OpenLayers.Feature.Vector(timeStampPos);
-
+					
+					// Remove date from time
 					var time = 	currentTrack.time.split(" ")[3] + " " +
 								currentTrack.time.split(" ")[4];
-
+					
+					// Change to 24h clock
+					time = to24hClock(time);
+					
 					timeStampFeature.attributes = {timeStamp: time};
 					timeStampsLayer.addFeatures([timeStampFeature]);
 
@@ -443,11 +665,199 @@ function drawPastTrack(tracks) {
 }
 
 /**
+ * Finds the color of a cluster based on either density or count.
+ */
+function findClusterColor(cluster){
+
+	if (baseColorsOn == "density"){ 
+	
+		for (var i = clusterColors.length - 1; i >= 0; i--){
+			if (cluster.density >= clusterColors[i].densityLimit){
+				return clusterColors[i].color;
+			}
+		}
+		
+	} else if (baseColorsOn == "count"){ 
+
+		for (var i = clusterColors.length - 1; i >= 0; i--){
+			if (cluster.count >= clusterColors[i].countLimit){
+				return clusterColors[i].color;
+			}
+		}
+		
+	}
+	
+	return "#000000";
+}
+
+/**
+
+ *	Saves the viewport to the filter query object.
+ */
+function saveViewPort(){
+
+	// Get points from viewport
+	var viewportWidth = $(map.getViewport()).width();
+	var viewportHeight = $(map.getViewport()).height();
+	topLeftPixel = new OpenLayers.Pixel(viewportWidth*0.00, viewportHeight*0.00);
+	botRightPixel = new OpenLayers.Pixel(viewportWidth*1.00, viewportHeight*1.00);
+
+	var top = map.getLonLatFromPixel(topLeftPixel).transform(
+			map.getProjectionObject(), // from Spherical Mercator Projection
+			new OpenLayers.Projection("EPSG:4326") // to WGS 1984
+		);
+	var bot = map.getLonLatFromPixel(botRightPixel).transform(
+			map.getProjectionObject(), // from Spherical Mercator Projection
+			new OpenLayers.Projection("EPSG:4326") // to WGS 1984
+		);
+
+	filterQuery.topLon = top.lon; 
+	filterQuery.topLat = top.lat; 
+	filterQuery.botLon = bot.lon; 
+	filterQuery.botLat = bot.lat;
+	
+}
+
+function getSpecificLoadArea(){
+
+	var loadArea = {};
+	
+	// Get center from viewport
+	var viewportWidth = $(map.getViewport()).width();
+	var viewportHeight = $(map.getViewport()).height();
+	var centerPixel = new OpenLayers.Pixel(viewportWidth*0.50, viewportHeight*0.50);
+	var center = map.getLonLatFromPixel(centerPixel).transform(
+			map.getProjectionObject(), // from Spherical Mercator Projection
+			new OpenLayers.Projection("EPSG:4326") // to WGS 1984
+		);
+
+	// Create area
+	var topLeft = {};
+	topLeft.lon = center.lon - fixedLoadAreaSize / 2;
+	topLeft.lat = center.lat + fixedLoadAreaSize / 2;
+	var botRight = {};
+	botRight.lon = center.lon + fixedLoadAreaSize / 2;
+	botRight.lat = center.lat - fixedLoadAreaSize / 2;
+
+	// Correct area wrapping
+	if (topLeft.lon > 180){
+		topLeft.lon = topLeft.lon - 180*2;
+	} else if (topLeft.lon < -180){
+		topLeft.lon = topLeft.lon + 180*2;
+	}
+	
+	if (botRight.lon > 180){
+		botRight.lon = botRight.lon - 180*2;
+	} else if (topLeft.lon < -180){
+		botRight.lon = botRight.lon + 180*2;
+	}
+
+	if (topLeft.lat > 90){
+		topLeft.lat = 90;
+	} else if (topLeft.lat < -90){
+		topLeft.lat = -90;
+	}
+	
+	if (botRight.lat > 90){
+		botRight.lat = 90;
+	} else if (topLeft.lat < -90){
+		botRight.lat = -90;
+	}
+	
+	loadArea.top = topLeft;
+	loadArea.bot = botRight;
+	
+	return loadArea;
+	
+}
+
+/**
+ * Moves the focus to a vessel. 
+ * The zoom level is specified in the settings.js file.
+ */
+function goToVessel(key){
+
+	var vessel = searchResults[key];
+
+	var center = new OpenLayers.LonLat(vessel.lon, vessel.lat).transform(
+			new OpenLayers.Projection("EPSG:4326"), 
+			map.getProjectionObject()
+		);
+
+	searchedVessel = vessel;
+	selectSearchedVessel = true;
+		
+	map.setCenter (center, focusZoom);
+
+	setTimeToLoad(400);
+
+}
+
+/**
+ * Moves the focus to a specific location and zoom level. 
+ * The zoom level is specified in the settings.js file.
+ */
+function goToVesselLocation(longitude, latitude){
+
+	var center = new OpenLayers.LonLat(longitude, latitude).transform(
+			new OpenLayers.Projection("EPSG:4326"), 
+			map.getProjectionObject()
+		);
+		
+	map.setCenter (center, focusZoom);
+
+}
+
+/**
+ * Converts a string in 12hr format to 24h format.
+ * 		
+ * @param time
+ * 		a string in the following format: "12:36:26 PM"
+ */
+function to24hClock(time){
+	
+	// Parse data
+	var hour = parseInt(time.split(":")[0]);
+	var min = parseInt(time.split(":")[1]);
+	var sec = parseInt(time.split(":")[2]);
+	var ampm = time.split(" ")[1];
+	
+	// AM?
+	if (ampm == "PM"){
+		hour += 12;
+		if (hour == 24){
+			hour = 12;
+		}
+	} else if(hour == 12){
+		hour = 0;
+	}
+	
+	// Insert zeroes
+	hour = hour += "";
+	min = min += "";
+	sec = sec += "";
+	if (hour.length == 1){
+		hour = "0" + hour;
+	}
+	if (min.length == 1){
+		min = "0" + min;
+	}
+	if (sec.length == 1){
+		sec = "0" + sec;
+	}
+	
+	return hour + ":" + min + ":" + sec;
+	
+}
+
+/**
  * Searches for the vessel described in the search field.
  */
 function search(){
 	// Read search field
 	var arg = $("#searchField").val();
+	$("#searchResultsTop").empty();
+	$("#searchResultsContainer").empty();
 	
 	if (arg.length > 0){
 
@@ -462,26 +872,32 @@ function search(){
 				$("#searchResults").css('visibility', 'visible');
 					
 				// Search results
-				vesselsResults = [];
+				searchResults = [];
 
 				// Get vessels
 				for (vesselId in result.vessels) {
 					var vesselJSON = result.vessels[vesselId];
 					var vessel = new Vessel(vesselId, vesselJSON, 1);
-					vesselsResults.push(vessel);
+					searchResults.push(vessel);
 				}
 
-				// Focus on vessel
-				if (vesselsResults.length == 1){
-					s = "";
-					selectedVessel = vesselsResults[0];
-					var center = new OpenLayers.LonLat(selectedVessel.lon, selectedVessel.lat).transform(
-						new OpenLayers.Projection("EPSG:4326"), 
-						map.getProjectionObject()
-						);
-					map.setCenter (center, focusZoom);
-				} else {
-					//map.zoomTo(worldZoom);
+				// Add search result to list
+				if (searchResults.length <= searchResultsLimit && searchResults.length != 0){
+					if (searchResults.length == 1){
+						s = "";
+					}
+					//selectedVessel = searchResults[0];
+					
+					$("#searchResultsTop").html("<div class='information'>Search results: </div>");
+					$.each(searchResults, function(key, value) { 
+
+							searchResults.push(value);
+
+							$("#searchResultsContainer").append(searchResultToHTML(value, key));
+							
+						}
+					);
+					
 				}
 
 				$("#searchMatch").html(result.vesselCount + " vessel" + s + " match.");
@@ -491,7 +907,7 @@ function search(){
 
 			});
 	} else {
-		vesselsResults = [];
+		searchResults = [];
 		drawVessels();
 
 		// Hide results
@@ -565,8 +981,8 @@ function resetFilterQuery(){
  */
 function clearFilters() {
 	$("#country").val("");
-	$("#coruceCountry").val("");
-	$("#courceType").val("");
+	$("#soruceCountry").val("");
+	$("#sourceType").val("");
 	$("#sourceRegion").val("");
 	$("#sourceBS").val("");
 	$("#sourceSystem").val("");
@@ -604,7 +1020,7 @@ function applyFilter() {
 	filterQuery.sourceBS = $("#sourceBS").val();
 	filterQuery.sourceSystem = $("#sourceSystem").val();
 	filterQuery.vesselClass = $("#vesselClass").val();
-
+	
 	filterChanged();
 }
 
@@ -614,7 +1030,7 @@ function applyFilter() {
  */
 function filterChanged() {
 	// Save query cookie
-	var f = JSON.stringify(filterQuery)
+	var f = JSON.stringify(filterQuery);
 	setCookie("dma-ais-query", f, 30);
 	
     loadVessels();
@@ -637,9 +1053,10 @@ function saveViewCookie() {
 
 
 /**
- * Method for saving the current view into a cookie.
+ * Get settings from cookies
  */
 function loadView() {
+	
 	var zoom = getCookie("dma-ais-zoom");
 	var lat = getCookie("dma-ais-lat");
 	var lon = getCookie("dma-ais-lon");
