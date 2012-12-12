@@ -28,7 +28,7 @@ public class UserPanel extends Panel {
 		loggedIn.setVisible(false);
 				
 		add(notLoggedIn);
-		loggedIn.add(new Label("username", new PropertyModel<ArcticWebSession>(this, "username")));
+		loggedIn.add(new Label("username", new PropertyModel<UserPanel>(this, "username")));
 		add(loggedIn);
 		
 		Link<String> logoutLink = new Link<String>("logout_link") {
@@ -37,7 +37,7 @@ public class UserPanel extends Panel {
 			public void onClick() {
 				LOG.info("Logging out: " + getUsername());
 				ArcticWebSession.get().logout();
-				setResponsePage(FrontPage.class);
+				setResponsePage(new FrontPage());
 			}
 		};
 		loggedIn.add(logoutLink);		

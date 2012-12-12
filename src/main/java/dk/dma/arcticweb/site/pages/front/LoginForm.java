@@ -19,12 +19,12 @@ import dk.dma.arcticweb.site.session.ArcticWebSession;
 
 public class LoginForm extends StatelessForm<LoginForm> {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private static final Logger LOG = Logger.getLogger(LoginForm.class);
 
 	@EJB
-	UserService userService;
-
-	private static final long serialVersionUID = 1L;
+	UserService userService;	
 	
 	private String username;
 	private String password;

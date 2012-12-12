@@ -61,6 +61,12 @@
     
     <div class="menuDivider"></div>
     
+    <!-- Ship information modal
+	================================================== -->
+	<div wicket:id="ship_information">
+	
+	</div>
+    
     <!-- MAP
     ================================================== -->
     <div id="container" wicket:id="map">
@@ -68,72 +74,6 @@
 	</div>
     <!-- ============================================= -->
 
-     <!-- Vessel details modal
-    ================================================== -->
-	<div id="vessel_details" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	  <div class="modal-header">
-	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-	    <h2 id="myModalLabel">Vessel details</h2>
-	    <dl class="dl-horizontal">
-			<dt>MMSI</dt>
-			<dd id="vd_mmsi"></dd>
-			<dt>Class</dt>
-			<dd id="vd_class"></dd>
-			<dt>Name</dt>
-			<dd id="vd_name"></dd>
-			<dt>Callsign</dt>
-			<dd id="vd_callsign"></dd>
-			<dt>Lat</dt>
-			<dd id="vd_lat"></dd>
-			<dt>Lon</dt>
-			<dd id="vd_lon"></dd>
-			<dt>IMO</dt>
-			<dd id="vd_imo"></dd>
-			<dt>Source</dt>
-			<dd id="vd_source"></dd>
-			<dt>Type</dt>
-			<dd id="vd_type"></dd>
-			<dt>Cargo</dt>
-			<dd id="vd_cargo"></dd>
-			<dt>Country</dt>
-			<dd id="vd_country"></dd>
-			<dt>SOG</dt>
-			<dd id="vd_sog"></dd>
-			<dt>COG</dt>
-			<dd id="vd_cog"></dd>
-			<dt>Heading</dt>
-			<dd id="vd_heading"></dd>
-			<dt>Draught</dt>
-			<dd id="vd_draught"></dd>
-			<dt>ROT</dt>
-			<dd id="vd_rot"></dd>
-			<dt>Width</dt>
-			<dd id="vd_width"></dd>
-			<dt>Length</dt>
-			<dd id="vd_length"></dd>
-			<dt>Destination</dt>
-			<dd id="vd_destination"></dd>
-			<dt>Nav status</dt>
-			<dd id="vd_navStatus"></dd>
-			<dt>ETA</dt>
-			<dd id="vd_eta"></dd>
-			<dt>Pos acc</dt>
-			<dd id="vd_posAcc"></dd>
-			<dt>Last report</dt>
-			<dd id="vd_lastReport"></dd>
-			<dt>More information</dt>
-			<dd id="vd_link"></dd>
-		</dl>
-		<div style="width: 75px; margin-left: auto; margin-right: auto">
-			<button class="btn btn-primary" role="button" data-toggle="modal" data-dismiss="modal">Close</button>
-		</div>
-	  </div>
-	  <div class="modal-body">
-	    
-	  </div>
-	</div>
-	<!-- ============================================= -->
-		
 	</body>
 </html>
 
