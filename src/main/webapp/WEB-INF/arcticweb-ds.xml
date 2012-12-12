@@ -17,15 +17,26 @@
     xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
     <!-- The datasource is bound into JNDI at this location. We reference 
         this in META-INF/persistence.xml -->
+<!--     <datasource jndi-name="java:jboss/datasources/arcticwebDS" -->
+<!--         pool-name="wicket-quickstart" enabled="true" -->
+<!--         use-java-context="true" use-ccm="true" jta="true"> -->
+<!--         <connection-url>jdbc:h2:mem:arcticweb;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1</connection-url> -->
+<!--         <driver>h2</driver> -->
+<!--         <security> -->
+<!--             <user-name>sa</user-name> -->
+<!--             <password>sa</password> -->
+<!--         </security> -->
+<!--     </datasource> -->
     <datasource jndi-name="java:jboss/datasources/arcticwebDS"
-        pool-name="wicket-quickstart" enabled="true"
+        pool-name="arcticweb" enabled="true"
         use-java-context="true" use-ccm="true" jta="true">
-        <connection-url>jdbc:h2:mem:arcticweb;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1</connection-url>
-        <driver>h2</driver>
+        <connection-url>jdbc:mysql://linux06:3306/arcticweb</connection-url>
+        <driver>mysql-connector-java-5.1.21.jar</driver>
         <security>
-            <user-name>sa</user-name>
-            <password>sa</password>
+            <user-name>arcticweb</user-name>
+            <password>arcticweb</password>
         </security>
     </datasource>
+
 </datasources>
  

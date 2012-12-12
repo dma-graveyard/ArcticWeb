@@ -45,7 +45,6 @@ public class LoginForm extends StatelessForm<LoginForm> {
 			private static final long serialVersionUID = 1L;
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-				System.out.println("Hello world: " + getUsername());
 				User user = userService.login(username, password);
 				if (user != null) {
 					feedback.setVisible(false);

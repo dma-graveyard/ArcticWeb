@@ -31,8 +31,7 @@ public class TestPage extends WebPage {
 		user.setUsername("ora");
 		user.setPassword("qwerty"); 
 		user.setEmail("obo@dma.dk");
-		user.setStakeholder(newShip);
-		
+		user.setStakeholder(newShip);		
 		newShip.getUsers().add(user);
 		
 		stakeholderDao.saveEntity(newShip);

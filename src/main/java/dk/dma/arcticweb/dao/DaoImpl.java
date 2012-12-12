@@ -11,7 +11,7 @@ import dk.dma.arcticweb.domain.IEntity;
 @Stateless
 public class DaoImpl implements Dao {
 
-	@PersistenceContext(name = "arcticwebDS")
+	@PersistenceContext(name = "arcticweb")
     protected EntityManager em;
 	
 	@Override
