@@ -49,7 +49,7 @@ public class LoginForm extends StatelessForm<LoginForm> {
 				if (user != null) {
 					feedback.setVisible(false);
 					LOG.info("User logged in: " + username);
-					ArcticWebSession.get().setUser(user);					
+					ArcticWebSession.get().loginUser(user);					
 					setResponsePage(new MainPage());
 				} else {
 					feedback.setVisible(true);

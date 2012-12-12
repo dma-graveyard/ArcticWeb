@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import dk.dma.arcticweb.domain.Ship;
 import dk.dma.arcticweb.domain.Stakeholder;
 
 @Local
@@ -17,10 +16,10 @@ public interface StakeholderDao extends Dao {
 	List<Stakeholder> getAll();
 	
 	/**
-	 * Get ship with id
+	 * Get stakeholder by id
 	 * @param id
 	 * @return
 	 */
-	Ship getShip(int id);
-
+	Stakeholder get(int id);
+	
 }

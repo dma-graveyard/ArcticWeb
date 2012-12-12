@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
 import dk.dma.arcticweb.domain.IEntity;
@@ -16,7 +17,11 @@ public class DaoImpl implements Dao {
 	
 	@Override
 	public IEntity getByPrimaryKey(Class<? extends IEntity> clazz, Object id) {
-		return em.find(clazz, id);
+		try {
+			return em.find(clazz, id);
+		} catch (EntityNotFoundException e) {
+			return null;
+		}
 	}
 
 	@Override

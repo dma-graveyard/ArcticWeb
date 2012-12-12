@@ -15,18 +15,26 @@
  */
 package dk.dma.arcticweb.site.session;
 
+import javax.ejb.EJB;
+
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.Request;
 
+import dk.dma.arcticweb.domain.Stakeholder;
 import dk.dma.arcticweb.domain.User;
+import dk.dma.arcticweb.service.StakeholderService;
 
 /**
  * Session object
  */
 public class ArcticWebSession extends WebSession {
+	
+	@EJB
+	private static StakeholderService stakeholderService;
 
 	private User user = null;
+	private Stakeholder stakeholder = null;
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,12 +46,9 @@ public class ArcticWebSession extends WebSession {
 		super(request);
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
+	public void loginUser(User user) {
 		this.user = user;
+		this.stakeholder = stakeholderService.getStakeholder(user);
 	}
 
 	public boolean isLoggedIn() {
@@ -52,6 +57,14 @@ public class ArcticWebSession extends WebSession {
 
 	public void logout() {
 		this.user = null;
+	}
+
+	public User getUser() {
+		return user;
+	}
+	
+	public Stakeholder getStakeholder() {
+		return stakeholder;
 	}
 
 }

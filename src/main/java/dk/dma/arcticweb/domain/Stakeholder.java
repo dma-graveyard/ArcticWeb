@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -53,6 +54,31 @@ public class Stakeholder extends AbstractEntity {
 	
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+	
+	@Transient
+	public String getStakeholderType() {
+		return this.getClass().getSimpleName();
+	}
+	
+	@Transient
+	public boolean isShip() {
+		return (this instanceof Ship);
+	}
+	
+	@Transient
+	public boolean isAuthority() {
+		return (this instanceof Authority);
+	}
+	
+	@Transient
+	public boolean isShipOwner() {
+		return (this instanceof ShipOwner);
+	}
+	
+	@Transient
+	public boolean isShoreStakeholder() {
+		return (this instanceof ShoreStakeholder);
 	}
 
 }
