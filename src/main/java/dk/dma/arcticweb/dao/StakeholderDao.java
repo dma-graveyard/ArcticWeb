@@ -1,14 +1,14 @@
-package dk.dma.arcticweb.eao;
+package dk.dma.arcticweb.dao;
 
 import java.util.List;
 
-import com.google.inject.ImplementedBy;
+import javax.ejb.Local;
 
 import dk.dma.arcticweb.domain.Ship;
 import dk.dma.arcticweb.domain.Stakeholder;
 
-@ImplementedBy(StakeholderEaoImpl.class)
-public interface StakeholderEao extends Eao {
+@Local
+public interface StakeholderDao extends Dao {
 	
 	/**
 	 * Get all stakeholders

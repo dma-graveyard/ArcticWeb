@@ -1,13 +1,12 @@
-package dk.dma.arcticweb.eao;
+package dk.dma.arcticweb.dao;
 
+import javax.ejb.Stateless;
 import javax.persistence.Query;
-
-import com.google.inject.persist.Transactional;
 
 import dk.dma.arcticweb.domain.User;
 
-@Transactional
-public class UserEaoImpl extends EaoImpl implements UserEao {
+@Stateless
+public class UserDaoImpl extends DaoImpl implements UserDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override

@@ -1,10 +1,10 @@
 package dk.dma.arcticweb.service;
 
-import com.google.inject.ImplementedBy;
+import javax.ejb.Local;
 
 import dk.dma.arcticweb.domain.User;
 
-@ImplementedBy(UserServiceImpl.class)
+@Local
 public interface UserService {
 	
 	/**

@@ -1,8 +1,8 @@
-package dk.dma.arcticweb.eao;
+package dk.dma.arcticweb.dao;
 
 import dk.dma.arcticweb.domain.IEntity;
 
-public interface Eao {
+public interface Dao {
 	
 	/**
 	 * Get entity by primary key

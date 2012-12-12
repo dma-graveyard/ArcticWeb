@@ -1,13 +1,15 @@
-package dk.dma.arcticweb.eao;
+package dk.dma.arcticweb.dao;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.Query;
 
 import dk.dma.arcticweb.domain.Ship;
 import dk.dma.arcticweb.domain.Stakeholder;
 
-public class StakeholderEaoImpl extends EaoImpl implements StakeholderEao {
+@Stateless
+public class StakeholderDaoImpl extends DaoImpl implements StakeholderDao {
 
 	@SuppressWarnings("unchecked")
 	@Override

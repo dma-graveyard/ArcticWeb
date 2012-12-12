@@ -1,12 +1,12 @@
 package dk.dma.arcticweb.service;
 
-import com.google.inject.ImplementedBy;
+import javax.ejb.Local;
 
 import dk.dma.arcticweb.domain.Ship;
 import dk.dma.arcticweb.domain.Stakeholder;
 import dk.dma.arcticweb.domain.User;
 
-@ImplementedBy(StakeholderServiceImpl.class)
+@Local
 public interface StakeholderService {
 	
 	/**

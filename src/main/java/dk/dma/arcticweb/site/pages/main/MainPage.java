@@ -15,9 +15,9 @@
  */
 package dk.dma.arcticweb.site.pages.main;
 
-import org.apache.wicket.markup.html.basic.Label;
+import javax.ejb.EJB;
 
-import com.google.inject.Inject;
+import org.apache.wicket.markup.html.basic.Label;
 
 import dk.dma.arcticweb.domain.Ship;
 import dk.dma.arcticweb.domain.Stakeholder;
@@ -30,7 +30,7 @@ import dk.dma.arcticweb.site.pages.main.panel.UserPanel;
 public class MainPage extends BasePage implements SecurePage {
 	private static final long serialVersionUID = 1L;
 	
-	@Inject
+	@EJB
 	StakeholderService stakeholderService;
 	
 	public MainPage() {

@@ -1,28 +1,30 @@
 package dk.dma.arcticweb.service;
 
-import com.google.inject.Inject;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
+import dk.dma.arcticweb.dao.StakeholderDao;
+import dk.dma.arcticweb.dao.UserDao;
 import dk.dma.arcticweb.domain.Ship;
 import dk.dma.arcticweb.domain.Stakeholder;
 import dk.dma.arcticweb.domain.User;
-import dk.dma.arcticweb.eao.StakeholderEao;
-import dk.dma.arcticweb.eao.UserEao;
 
+@Stateless
 public class StakeholderServiceImpl implements StakeholderService {
 	
-	@Inject
-	StakeholderEao stakeholderEao;
-	@Inject
-	UserEao userEao;
+	@EJB
+	StakeholderDao stakeholderDao;
+	@EJB
+	UserDao userDao;
 	
 	@Override
 	public Stakeholder getStakeholder(User user) {
-		user = (User)userEao.getByPrimaryKey(User.class, user.getId());
+		user = (User)userDao.getByPrimaryKey(User.class, user.getId());
 		System.out.println("class: " + user.getClass());
 		Stakeholder stakeholder = user.getStakeholder();
 		System.out.println("class: " + stakeholder.getClass());
 		
-		stakeholder = (Stakeholder)stakeholderEao.getByPrimaryKey(Stakeholder.class, stakeholder.getId());
+		stakeholder = (Stakeholder)stakeholderDao.getByPrimaryKey(Stakeholder.class, stakeholder.getId());
 		System.out.println("class: " + stakeholder.getClass());
 		
 		return stakeholder;
@@ -30,13 +32,13 @@ public class StakeholderServiceImpl implements StakeholderService {
 	
 	@Override
 	public Ship getShip(User user) {
-		user = (User)userEao.getByPrimaryKey(User.class, user.getId());
+		user = (User)userDao.getByPrimaryKey(User.class, user.getId());
 		System.out.println("class: " + user.getClass());
 		Stakeholder stakeholder = user.getStakeholder();
 		if (stakeholder == null) {
 			return null;
 		}		
-		return stakeholderEao.getShip(stakeholder.getId());
+		return stakeholderDao.getShip(stakeholder.getId());
 	}
 
 }

@@ -1,34 +1,30 @@
-package dk.dma.arcticweb.eao;
+package dk.dma.arcticweb.dao;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-
-import com.google.inject.persist.Transactional;
+import javax.persistence.PersistenceContext;
 
 import dk.dma.arcticweb.domain.IEntity;
 
-@Transactional
-public class EaoImpl implements Eao {
+@Stateless
+public class DaoImpl implements Dao {
 
-	@Inject
-	protected EntityManager em;
-
+	@PersistenceContext(name = "arcticwebDS")
+    protected EntityManager em;
+	
 	@Override
-	@Transactional
 	public IEntity getByPrimaryKey(Class<? extends IEntity> clazz, Object id) {
 		return em.find(clazz, id);
 	}
 
 	@Override
-	@Transactional
 	public void remove(IEntity entity) {
 		em.remove(em.merge(entity));
 	}
 
 	@Override
-	@Transactional
 	public IEntity saveEntity(IEntity entity) {
 		if (entity.isPersisted()) {
 			// Update existing

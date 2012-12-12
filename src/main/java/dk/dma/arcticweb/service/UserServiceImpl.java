@@ -2,21 +2,21 @@ package dk.dma.arcticweb.service;
 
 import java.util.Date;
 
-import com.google.inject.Inject;
-import com.google.inject.persist.Transactional;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
+import dk.dma.arcticweb.dao.UserDao;
 import dk.dma.arcticweb.domain.User;
-import dk.dma.arcticweb.eao.UserEao;
 
-@Transactional
+@Stateless
 public class UserServiceImpl implements UserService {
 	
-	@Inject
-	private UserEao userEao;
+	@EJB
+	private UserDao userDao;
 	
 	@Override
 	public User login(String username, String password) {
-		User user = userEao.getByUsername(username);
+		User user = userDao.getByUsername(username);
 		if (user == null) {
 			return null;
 		}
@@ -24,12 +24,12 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 		user.setLastLogin(new Date());
-		return (User)userEao.saveEntity(user);
+		return (User)userDao.saveEntity(user);
 	}
 	
 	@Override
 	public User createUser(User user) {
-		return (User)userEao.saveEntity(user);
+		return (User)userDao.saveEntity(user);
 	}
 	
 }

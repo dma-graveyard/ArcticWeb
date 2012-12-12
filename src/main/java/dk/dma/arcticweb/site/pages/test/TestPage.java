@@ -3,24 +3,24 @@ package dk.dma.arcticweb.site.pages.test;
 import java.util.List;
 import java.util.Set;
 
+import javax.ejb.EJB;
+
 import org.apache.wicket.markup.html.WebPage;
 
-import com.google.inject.Inject;
-
+import dk.dma.arcticweb.dao.StakeholderDao;
+import dk.dma.arcticweb.dao.UserDao;
 import dk.dma.arcticweb.domain.Ship;
 import dk.dma.arcticweb.domain.Stakeholder;
 import dk.dma.arcticweb.domain.User;
-import dk.dma.arcticweb.eao.StakeholderEao;
-import dk.dma.arcticweb.eao.UserEao;
 
 public class TestPage extends WebPage {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Inject
-	private StakeholderEao stakeholderEao;
-	@Inject
-	private UserEao userEao;
+	@EJB
+	private StakeholderDao stakeholderDao;
+	@EJB
+	private UserDao userDao;
 
 	public TestPage() {
 		Ship newShip = new Ship();
@@ -36,11 +36,11 @@ public class TestPage extends WebPage {
 		
 		newShip.getUsers().add(user);
 		
-		stakeholderEao.saveEntity(newShip);
-		userEao.saveEntity(user);
+		stakeholderDao.saveEntity(newShip);
+		userDao.saveEntity(user);
 		
 		
-		List<Stakeholder> stakeholders = stakeholderEao.getAll();
+		List<Stakeholder> stakeholders = stakeholderDao.getAll();
 		for (Stakeholder stakeholder : stakeholders) {
 			if (stakeholder instanceof Ship) {
 				Ship ship = (Ship)stakeholder;
