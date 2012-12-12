@@ -22,7 +22,7 @@ var loadViewportOnly = true;
 // * When the need for a load is detected it still waits for the loadCheckingFrequence.
 
 // JSON URLs
-var listUrl = 'json_proxy/anon_vessel_list';
+var listUrl = 'json_proxy/vessel_list';
 var clusterUrl = 'json_proxy/vessel_clusters';
 var detailsUrl = 'json_proxy/vessel_target_details';
 var searchUrl = 'json_proxy/vessel_search';

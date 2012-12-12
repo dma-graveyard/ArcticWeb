@@ -1,7 +1,6 @@
 package dk.dma.arcticweb.site.pages.test;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.ejb.EJB;
 
@@ -29,8 +28,8 @@ public class TestPage extends WebPage {
 				
 		
 		User user = new User();
-		user.setUsername("testuser");
-		user.setPassword("testuser"); 
+		user.setUsername("ora");
+		user.setPassword("qwerty"); 
 		user.setEmail("obo@dma.dk");
 		user.setStakeholder(newShip);
 		
@@ -45,8 +44,6 @@ public class TestPage extends WebPage {
 			if (stakeholder instanceof Ship) {
 				Ship ship = (Ship)stakeholder;
 				System.out.println("mmsi: " + ship.getMmsi());
-				Set<User> users = ship.getUsers();
-				System.out.println("users: " + users.size());
 			}
 		}		
 		
