@@ -32,4 +32,9 @@ public class UserServiceImpl implements UserService {
 		return (User)userDao.saveEntity(user);
 	}
 	
+	@Override
+	public User get(User user) {
+		return (User)userDao.getByPrimaryKey(User.class, user.getId());
+	}
+	
 }

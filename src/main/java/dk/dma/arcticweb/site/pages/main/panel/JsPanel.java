@@ -25,7 +25,7 @@ public class JsPanel extends Panel {
 		String stakeholderType = session.getStakeholder().getStakeholderType();		
 		String shipMmsi = "null";
 		if (session.getStakeholder() instanceof Ship) {
-			shipMmsi = Integer.toString(((Ship)session.getStakeholder()).getMmsi());
+			shipMmsi = Long.toString(((Ship)session.getStakeholder()).getMmsi());
 		}
 
 		// Make label

@@ -23,5 +23,12 @@ public interface UserService {
 	 */
 	User createUser(User user);
 	
+	/**
+	 * Get fresh copy of user
+	 * @param user
+	 * @return
+	 */
+	User get(User user);
+	
 
 }

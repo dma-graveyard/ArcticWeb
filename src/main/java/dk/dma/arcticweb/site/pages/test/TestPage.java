@@ -26,7 +26,7 @@ public class TestPage extends WebPage {
 		// Create ship and user
 		Ship newShip = new Ship();
 		newShip.setName("ORASILA");
-		newShip.setMmsi(220443000);
+		newShip.setMmsi(220443000L);
 		User user = new User();
 		user.setUsername("ora");
 		user.setPassword("qwerty"); 

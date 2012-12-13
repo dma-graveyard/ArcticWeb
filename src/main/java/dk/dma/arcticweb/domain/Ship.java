@@ -10,18 +10,18 @@ import javax.persistence.ManyToOne;
 public class Ship extends Stakeholder {
 	private static final long serialVersionUID = 1L;
 	
-	private Integer mmsi;
+	private Long mmsi;
 	private ShipOwner owner;
 	
 	public Ship() {
 	}
 	
 	@Column(nullable = true)
-	public Integer getMmsi() {
+	public Long getMmsi() {
 		return mmsi;
 	}
 	
-	public void setMmsi(Integer mmsi) {
+	public void setMmsi(Long mmsi) {
 		this.mmsi = mmsi;
 	}
 	

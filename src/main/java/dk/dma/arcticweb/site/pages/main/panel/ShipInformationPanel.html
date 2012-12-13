@@ -5,16 +5,28 @@
 			<h2 id="myModalLabel">Ship information</h2>
 		</div>
 		<div class="modal-body">
-			<form wicket:id="ship_information_form">
+			<form wicket:id="ship_information_form" class="form-horizontal">
 				<wicket:enclosure>
 					<div class="alert alert-error" wicket:id="ship_information_feedback">xxx</div>
 				</wicket:enclosure>
-				<input wicket:id="mmsi" type="text" class="input-block-level" placeholder="MMSI">
-				<input wicket:id="name" type="text" class="input-block-level" placeholder="Name">
-				
-				
+				<div wicket:id="saved">
+					<div class="alert alert-success">Saved!</div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="mmsi">MMSI</label>
+				    <div class="controls">
+						<input wicket:id="mmsi" type="text" id="mmsi" class="input-small">
+					</div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="mmsi">Name</label>
+				    <div class="controls">
+						<input wicket:id="name" type="text" id="name" class="input-large">
+					</div>
+				</div>
 				<div style="margin-top:24px">
-					<input type="button" class="btn btn-primary" value="Save" wicket:id="save"/>
+					<button type="submit" class="btn btn-primary" wicket:id="save">Save</button>
+					<button type="button" class="btn" wicket:id="close">Close</button>
 				</div>
 			</form>
 		</div>

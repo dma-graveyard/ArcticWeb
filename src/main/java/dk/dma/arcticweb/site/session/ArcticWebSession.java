@@ -15,6 +15,8 @@
  */
 package dk.dma.arcticweb.site.session;
 
+import java.util.Locale;
+
 import javax.ejb.EJB;
 
 import org.apache.wicket.Session;
@@ -24,6 +26,7 @@ import org.apache.wicket.request.Request;
 import dk.dma.arcticweb.domain.Stakeholder;
 import dk.dma.arcticweb.domain.User;
 import dk.dma.arcticweb.service.StakeholderService;
+import dk.dma.arcticweb.service.UserService;
 
 /**
  * Session object
@@ -32,6 +35,8 @@ public class ArcticWebSession extends WebSession {
 	
 	@EJB
 	private static StakeholderService stakeholderService;
+	@EJB
+	private static UserService userService;
 
 	private User user = null;
 	private Stakeholder stakeholder = null;
@@ -44,6 +49,7 @@ public class ArcticWebSession extends WebSession {
 
 	public ArcticWebSession(Request request) {
 		super(request);
+		setLocale(Locale.US);
 	}
 
 	public void loginUser(User user) {
@@ -66,5 +72,15 @@ public class ArcticWebSession extends WebSession {
 	public Stakeholder getStakeholder() {
 		return stakeholder;
 	}
-
+	
+	/**
+	 * Reload from DB
+	 */
+	public void refresh() {
+		if (user != null) {
+			user = userService.get(user);
+			stakeholder = stakeholderService.getStakeholder(user);
+		}		
+	}
+	
 }

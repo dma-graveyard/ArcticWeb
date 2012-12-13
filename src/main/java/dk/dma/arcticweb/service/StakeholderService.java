@@ -15,4 +15,11 @@ public interface StakeholderService {
 	 */
 	Stakeholder getStakeholder(User user);
 	
+	/**
+	 * Persist stakeholder
+	 * @param stakeholder
+	 * @return
+	 */
+	Stakeholder save(Stakeholder stakeholder);
+	
 }

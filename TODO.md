@@ -11,7 +11,6 @@
 === User and login ===
 
 * Login modal: Focus username when shown.
-* Login modal: Enter key handling
 * Remember me functionality (auto login)
 * Edit user details when clicking user name
 * Request login modal

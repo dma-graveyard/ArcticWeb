@@ -24,4 +24,9 @@ public class StakeholderServiceImpl implements StakeholderService {
 		return stakeholder;
 	}
 	
+	@Override
+	public Stakeholder save(Stakeholder stakeholder) {
+		return (Stakeholder) stakeholderDao.saveEntity(stakeholder);
+	}
+	
 }
