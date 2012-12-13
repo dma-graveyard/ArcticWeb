@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>dk.dma.arcticweb</groupId>
 	<artifactId>ArcticWeb</artifactId>
 	<packaging>war</packaging>
@@ -23,32 +23,32 @@
 		<version.net.ftlines.wicket-cdi>1.2</version.net.ftlines.wicket-cdi>
 	</properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-6.0</artifactId>
-                <version>${version.org.jboss.spec.javaee6}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-6.0</artifactId>
+				<version>${version.org.jboss.spec.javaee6}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 
-            <!-- Wicket -->
-            <dependency>
-                <groupId>org.apache.wicket</groupId>
-                <artifactId>wicket-core</artifactId>
-                <version>${wicket.version}</version>
-            </dependency>
+			<!-- Wicket -->
+			<dependency>
+				<groupId>org.apache.wicket</groupId>
+				<artifactId>wicket-core</artifactId>
+				<version>${wicket.version}</version>
+			</dependency>
 
-            <!-- Wicket Java EE integration. -->
-            <dependency>
-                <groupId>net.ftlines.wicket-cdi</groupId>
-                <artifactId>wicket-cdi</artifactId>
-                <version>${version.net.ftlines.wicket-cdi}</version>
-            </dependency>
+			<!-- Wicket Java EE integration. -->
+			<dependency>
+				<groupId>net.ftlines.wicket-cdi</groupId>
+				<artifactId>wicket-cdi</artifactId>
+				<version>${version.net.ftlines.wicket-cdi}</version>
+			</dependency>
 
-        </dependencies>
-    </dependencyManagement>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<!-- Import the CDI API. -->
@@ -119,8 +119,13 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.21</version>
 		</dependency>
+		<dependency>
+			<groupId>dk.dma.enav</groupId>
+			<artifactId>enav-model</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<resources>
 			<resource>

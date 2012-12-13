@@ -61,4 +61,9 @@
       <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
     </attributes>
   </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/dk/dma/enav/enav-model/0.1-SNAPSHOT/enav-model-0.1-SNAPSHOT.jar">
+    <attributes>
+      <attribute value="/WEB-INF/lib" name="org.eclipse.jst.component.dependency"/>
+    </attributes>
+  </classpathentry>
 </classpath>
