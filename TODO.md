@@ -24,29 +24,42 @@
 
 === AIS view ===
 
+* Times not shown on past track anymore
+
 * Zoom to own ship
 * Mark own ship if stakeholder ship
 
 * Protect proxy solution
 
-* Do not reload on re-position
-* Auto reload once a minute
 * Experiment with ENC chart and other projections
 
 * Handle ships on border of area. Maybe have the target handler
   use a filtering circle that is a little smaller.
 
-* Possibility to show dialog with the ship information in the system
+* Possibility to show dialog with the ship 	information in the system
+  Show reports from ship
+  
+* 
   
 === Ship specifics ===
 
 * Page to enter ship details
+  Bigger modal. Smaller inputs and maybe two columns.
+     - Static data pre-filled from AIS
+
 * Page to enter reportings (see GreenPos)
+	- Position from AIS and better position edit
+	
+* Page to enter voyage related stuff
+	- Position from AIS and better position edit 
+	 
+
 * Design of ship statics entering 
 
 === For all ===
 
-* See reportings
+* List of reportings with search option
+
 * See other vessel statics
 
 === Distance tool ===

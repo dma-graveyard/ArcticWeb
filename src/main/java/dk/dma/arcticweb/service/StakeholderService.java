@@ -2,6 +2,8 @@ package dk.dma.arcticweb.service;
 
 import javax.ejb.Local;
 
+import dk.dma.arcticweb.domain.Ship;
+import dk.dma.arcticweb.domain.ShipReport;
 import dk.dma.arcticweb.domain.Stakeholder;
 import dk.dma.arcticweb.domain.User;
 
@@ -21,5 +23,12 @@ public interface StakeholderService {
 	 * @return
 	 */
 	Stakeholder save(Stakeholder stakeholder);
+
+	/**
+	 * Add ship report for ship
+	 * @param ship
+	 * @param shipReport
+	 */
+	void addShipReport(Ship ship, ShipReport shipReport);
 	
 }

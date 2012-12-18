@@ -1,4 +1,4 @@
-var eventListUrl = "http://localhost:8081/abnormal/json/list";
+var eventListUrl = "/abnormal/json/list";
 var events = [];
 
 $(document).ready(function() {
