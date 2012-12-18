@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.extensions.yui.calendar.DateTimeField;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
@@ -29,7 +30,7 @@ public class ShipReportForm extends Form<ShipReportForm> {
 	private TextField<Double> lon;
 	private TextArea<String> weather;
 	private TextArea<String> iceObservations;
-	//private TextField<Date> reportTime;
+	private DateTimeField reportTime;
 	
 	private FeedbackPanel feedback;
 	private AjaxSubmitLink saveLink;
@@ -40,7 +41,8 @@ public class ShipReportForm extends Form<ShipReportForm> {
 		super(id);		
 		final Ship ship = (Ship) ArcticWebSession.get().getStakeholder();
 		
-		shipReport = new ShipReport();		
+		shipReport = new ShipReport();
+		shipReport.setReportTime(new Date());
 		setDefaultModel(new CompoundPropertyModel<ShipReport>(shipReport));
 		
 		lat = new TextField<>("lat");
@@ -55,6 +57,16 @@ public class ShipReportForm extends Form<ShipReportForm> {
 		weather = new TextArea<>("weather");
 		
 		iceObservations = new TextArea<>("iceObservations");
+		
+		reportTime = new DateTimeField("reportTime") {
+			private static final long serialVersionUID = 1L;
+			@Override
+		    protected boolean use12HourFormat() {
+		        //this will force to use 24 hours format
+		        return false;
+		    }
+		};
+		reportTime.setRequired(true);
 		
 		feedback = new FeedbackPanel("ship_report_feedback");
 		feedback.setVisible(false);
@@ -84,6 +96,7 @@ public class ShipReportForm extends Form<ShipReportForm> {
 		add(iceObservations);
 		add(feedback);
 		add(saveLink);
+		add(reportTime);
 		
 	}
 
