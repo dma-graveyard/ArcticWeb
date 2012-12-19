@@ -21,7 +21,7 @@ function searchResultToHTML(vessel, key){
 
 function eventToHTML(event){
 
-	var html = "<div class='event oldEvent' onClick='goToVesselLocation(" + event.location.longitude + ", " + event.location.latitude + ")'>" +
+	var html = "<div class='event oldEvent' onClick='goToLocation(" + event.location.longitude + ", " + event.location.latitude + ")'>" +
 					"<div class='panelText'>" +
 						event.description +
 					"</div>" +
