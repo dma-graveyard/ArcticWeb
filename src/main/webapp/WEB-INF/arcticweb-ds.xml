@@ -20,10 +20,10 @@
     <datasource jndi-name="java:jboss/datasources/arcticwebDS"
         pool-name="arcticweb" enabled="true"
         use-java-context="true" use-ccm="true" jta="true">
-        <!-- <connection-url>jdbc:mysql://linux06:3306/arcticweb</connection-url>   -->
-        <!--  <driver>mysql-connector-java-5.1.21.jar</driver>  -->
-        <connection-url>jdbc:mysql://localhost:3306/arcticweb</connection-url>
-        <driver>mysql</driver>
+        <connection-url>jdbc:mysql://linux06:3306/arcticweb</connection-url> 
+        <driver>mysql-connector-java-5.1.21.jar</driver> 
+        <!-- <connection-url>jdbc:mysql://localhost:3306/arcticweb</connection-url> -->
+        <!-- <driver>mysql</driver> -->
         <security>
             <user-name>arcticweb</user-name>
             <password>arcticweb</password>
