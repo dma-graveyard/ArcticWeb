@@ -12,10 +12,12 @@ var savedTimeStamps;
 var loadSavedFeatures = false;
 var timeOfLastLoad = 0;
 var selectSearchedVessel = false;
+var selectMarkedVessel = false;
 var searchedVessel;
 var selectedVessel;
 var selectedVesselInView = false;
 var selectedFeature;
+var markedVessel;
 var searchResults = [];
 var lastRequestId = 0;
 var lastZoomLevel;
@@ -434,7 +436,7 @@ function drawVessels(){
 
 	// Update number of vessels
 	$("#vesselsView").html(""+vessels.length);
-	
+
 	// Iterate through vessels where value refers to each vessel.
 	$.each(vessels, function(key, value) { 
 
@@ -468,14 +470,30 @@ function drawVessels(){
 
 			vesselFeatures.push(feature);
 
+			// Select searched vessel?
 			if (selectSearchedVessel && searchedVessel && searchedVessel.id == value.id){
 				selectedFeature = feature;
+			}
+			
+			// Select selected vessel?
+			if (selectedVessel && selectedVessel.id == value.id && !selectedFeature){
+				selectedFeature = feature;
+			}
+			
+			// Update marked vessel
+			if (markedVessel && markedVessel.id == value.id){
+				markedVessel = value;
 			}
 			
 		}
 		
 	});
-
+	
+	// Draw marker
+	if (markedVessel){
+		redrawMarker();
+	}
+	
 	// Set vessel in focus if selected
 	vesselInFocus(selectedVessel, selectedFeature);
 
@@ -579,6 +597,32 @@ function redrawSelection(){
 	selectionLayer.removeAllFeatures();
 	selectionLayer.addFeatures(selectionFeatures);
 	selectionLayer.redraw();
+}
+
+function redrawMarker(){
+	
+	var loc = transformPosition(markedVessel.lon, markedVessel.lat);
+	var geom = new OpenLayers.Geometry.Point(loc.lon, loc.lat);
+	
+	var markerFeature = new OpenLayers.Feature.Vector(
+			new OpenLayers.Geometry.Point( geom.x , geom.y ),
+		 	{	
+				id: -1,
+				angle: 0, 
+				opacity:1, 
+				image:"img/green_marker.png",
+				imageWidth: 32,
+				imageHeight: 32,
+				imageYOffset: -16,
+				imageXOffset: -16,
+				type: "marker"
+			}
+		);
+	
+	markerLayer.removeAllFeatures();
+	markerLayer.addFeatures(markerFeature);
+	markerLayer.redraw();
+	
 }
 
 /**
@@ -775,7 +819,26 @@ function getSpecificLoadArea(){
  * Moves the focus to a vessel. 
  * The zoom level is specified in the settings.js file.
  */
-function goToVessel(key){
+function goToVessel(vessel){
+
+	var center = new OpenLayers.LonLat(vessel.lon, vessel.lat).transform(
+			new OpenLayers.Projection("EPSG:4326"), 
+			map.getProjectionObject()
+		);
+
+	selectedVessel = vessel;
+		
+	map.setCenter (center, focusZoom);
+
+	setTimeToLoad(400);
+
+}
+
+/**
+ * Moves the focus to a vessel in the search results. 
+ * The zoom level is specified in the settings.js file.
+ */
+function goToSearchedVessel(key){
 
 	var vessel = searchResults[key];
 
@@ -797,7 +860,13 @@ function goToVessel(key){
  * Moves the focus to a specific location and zoom level. 
  * The zoom level is specified in the settings.js file.
  */
-function goToVesselLocation(longitude, latitude){
+function goToLocation(longitude, latitude){
+
+	// Hide tools
+	$("#abnormalPanel").css('visibility', 'hidden');
+	$("#lightBoxEffect").css('visibility', 'hidden');
+	$("#flash").css('visibility', 'hidden');
+	abnormalOpen = false;
 
 	var center = new OpenLayers.LonLat(longitude, latitude).transform(
 			new OpenLayers.Projection("EPSG:4326"), 

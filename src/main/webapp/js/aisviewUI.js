@@ -11,6 +11,7 @@ var tools = [];
 // Layers
 var vesselLayer;
 var selectionLayer;
+var markerLayer;
 var tracksLayer;
 var timeStampsLayer;
 var clusterLayer;
@@ -108,6 +109,8 @@ function openPanel(panelId){
 		var n = "#"+panelId+"";
 		$("#"+panelId).css('visibility', 'visible');
 		$("#lightBoxEffect").css('visibility', 'visible');
+		$("#flash").css('visibility', 'visible');
+		abnormalOpen = true;
 	}
 
 }
@@ -146,6 +149,30 @@ function addLayers(){
 		);
 
 	map.addLayer(vesselLayer);
+	
+	// Create vector layer with a stylemap for the selection image
+	markerLayer = new OpenLayers.Layer.Vector(
+			"Markers",
+			{
+				styleMap: new OpenLayers.StyleMap({
+					"default": {
+						externalGraphic: "${image}",
+						graphicWidth: "${imageWidth}",
+						graphicHeight: "${imageHeight}",
+						graphicYOffset: "${imageYOffset}",
+						graphicXOffset: "${imageXOffset}",
+						rotation: "${angle}"
+					},
+					"select": {
+						cursor: "crosshair",
+						externalGraphic: "${image}"
+					}
+				}),
+				renderers: renderer
+			}
+		);
+	
+	map.addLayer(markerLayer);
 
 	// Create vector layer with a stylemap for the selection image
 	selectionLayer = new OpenLayers.Layer.Vector(
@@ -280,6 +307,8 @@ function addLayers(){
  * Sets up the panels, event listeners and selection controllers.
  */
 function setupUI(){
+
+	setupDatePickers();
 
 	// Set zoom panel positon
 	$(".olControlZoom").css('left', zoomPanelPositionLeft);
@@ -612,6 +641,8 @@ function setupUI(){
 	$("#exitAbnormal").click(function() {
 		$("#abnormalPanel").css('visibility', 'hidden');
 		$("#lightBoxEffect").css('visibility', 'hidden');
+		$("#flash").css('visibility', 'hidden');
+		abnormalOpen = false;
 	});
 
 	// Search when search field is changed
@@ -620,6 +651,54 @@ function setupUI(){
 	// Close empty panels
 	setInterval("closeEmptyPanels()", 1000);
 	
+}
+
+function setupDatePickers(){
+
+	$( "#eventFromDate" ).datepicker();
+	$( "#eventToDate" ).datepicker();
+	
+	// Today
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1; //January is 0!
+	var minutes = today.getMinutes();
+	var hours = today.getHours();
+	var yyyy = today.getFullYear();
+	today = mm+'/'+dd+'/'+yyyy;
+	
+	// Yesterday
+	var yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1);
+	dd = yesterday.getDate();
+	mm = yesterday.getMonth() + 1; //January is 0!
+	yyyy = yesterday.getFullYear();
+	
+	yesterday = mm+'/'+dd+'/'+yyyy;
+	
+	$( "#eventFromDate" ).datepicker( "setDate", yesterday );
+	$( "#eventToDate" ).datepicker( "setDate", today );
+
+	// Set time
+	minutes = round5(minutes);
+
+	if (minutes == 60){ 
+		if (hours != 23){
+			hours++;
+			minutes = 0;
+		}
+	}
+	
+	$( "#eventFromHour" ).val(hours);
+	$( "#eventToHour" ).val(hours);
+	$( "#eventFromMin" ).val(minutes);
+	$( "#eventToMin" ).val(minutes);
+
+}
+
+function round5(x){
+	x += 2.5;
+    return (x % 5) >= 2.5 ? parseInt(x / 5) * 5 + 5 : parseInt(x / 5) * 5;
 }
 
 function loadAfterMove(){

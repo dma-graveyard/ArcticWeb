@@ -1,7 +1,7 @@
 
 function searchResultToHTML(vessel, key){
 
-	var html = "<div class='event oldEvent' onClick='goToVessel(" + key + ")'>" +
+	var html = "<div class='event oldEvent' onClick='goToSearchedVessel(" + key + ")'>" +
 					"<div class='panelText'>" +
 						vessel.vesselName +
 					"</div>";

@@ -4,7 +4,7 @@
 var initialLat = 56.00;
 var initialLon = 11.00;
 var initialZoom = 2;
-var focusZoom = 11;					// The zoom level when focus is changed to specific vessel
+var focusZoom = 9;					// The zoom level when focus is changed to specific vessel
 var vesselZoomLevel = 8;			// The maximum zoom level for which to draw vessels
 
 // Loading
@@ -57,10 +57,10 @@ var searchResultsShowPositon = false;	// Whether or not to show the position in 
 // Past tracks and time stamps
 var includePastTracks = true;			// Whether or not to show past tracks of selected vessels
 var includeTimeStamps = true;			// Whether or not to show time stamps on past tracks
-var includeTimeStampsOnCL = false;		// Whether or not to show time stamps on past tracks
-var tracksBetweenTimeStampsVL = 10;		// The number of tracks (single lines) between each timestamp on 
+var includeTimeStampsOnCL = true;		// Whether or not to show time stamps on past tracks
+var tracksBetweenTimeStampsVL = 6;		// The number of tracks (single lines) between each timestamp on 
 										// vessel level
-var tracksBetweenTimeStampsCL = 20;		// The number of tracks (single lines) between each timestamp on 
+var tracksBetweenTimeStampsCL = 6;		// The number of tracks (single lines) between each timestamp on 
 										// cluster level
 
 
