@@ -4,7 +4,7 @@
 var initialLat = 56.00;
 var initialLon = 11.00;
 var initialZoom = 2;
-var focusZoom = 9;					// The zoom level when focus is changed to specific vessel
+var focusZoom = 8;					// The zoom level when focus is changed to specific vessel
 var vesselZoomLevel = 8;			// The maximum zoom level for which to draw vessels
 
 // Loading

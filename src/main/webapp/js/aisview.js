@@ -835,6 +835,21 @@ function goToVessel(vessel){
 }
 
 /**
+ * Moves the location to a vessel. 
+ * The zoom level is specified in the settings.js file.
+ */
+function goToVesselLocation(vessel){
+
+	var center = new OpenLayers.LonLat(vessel.lon, vessel.lat).transform(
+			new OpenLayers.Projection("EPSG:4326"), 
+			map.getProjectionObject()
+		);
+		
+	map.setCenter (center, focusZoom);
+
+}
+
+/**
  * Moves the focus to a vessel in the search results. 
  * The zoom level is specified in the settings.js file.
  */

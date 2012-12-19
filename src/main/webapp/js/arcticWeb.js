@@ -31,7 +31,7 @@ function goToMyShip(){
 	
 	markedVessel = my_ship;
 	
-	goToVessel(my_ship);
+	goToVesselLocation(my_ship);
 	
 }
 
