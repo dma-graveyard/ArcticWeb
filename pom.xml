@@ -84,7 +84,13 @@
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
 		</dependency>
-
+		
+		<dependency>		
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-datetime</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+           
 		<!-- Wicket CDI integration. -->
 		<dependency>
 			<groupId>net.ftlines.wicket-cdi</groupId>
