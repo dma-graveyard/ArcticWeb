@@ -20,6 +20,7 @@ import dk.dma.arcticweb.site.pages.BasePage;
 import dk.dma.arcticweb.site.pages.main.panel.JsPanel;
 import dk.dma.arcticweb.site.pages.main.panel.MapPanel;
 import dk.dma.arcticweb.site.pages.main.panel.MenuPanel;
+import dk.dma.arcticweb.site.pages.main.panel.SelectedShipInformationPanel;
 import dk.dma.arcticweb.site.pages.main.panel.ShipInformationPanel;
 import dk.dma.arcticweb.site.pages.main.panel.ShipReportPanel;
 import dk.dma.arcticweb.site.pages.main.panel.UserPanel;
@@ -34,6 +35,7 @@ public class MainPage extends BasePage implements SecurePage {
 		add(new MenuPanel("menu_panel"));
 		add(new JsPanel("js_panel"));
 		add(new ShipInformationPanel("ship_information"));
+		add(new SelectedShipInformationPanel("selected_ship_information"));
 		add(new ShipReportPanel("ship_report"));
 	}
 

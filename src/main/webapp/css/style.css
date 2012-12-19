@@ -136,3 +136,16 @@ hr.soften {
 	right:28px;
 	bottom:28px;
 }
+
+.leftForm {
+	float: left;
+	width: 430px;	
+}
+
+.rightForm {
+	float: left;
+	width: 430px;	
+}
+
+​
+

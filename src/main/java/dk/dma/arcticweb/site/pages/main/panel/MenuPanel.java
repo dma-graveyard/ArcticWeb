@@ -11,6 +11,7 @@ public class MenuPanel extends Panel {
 	private static final long serialVersionUID = 1L;
 	
 	private WebMarkupContainer yourShip;
+	private WebMarkupContainer selectedShip;
 	
 	public MenuPanel(String id) {
 		super(id);
@@ -22,6 +23,10 @@ public class MenuPanel extends Panel {
 		
 		add(yourShip);
 		
+		selectedShip = new WebMarkupContainer("selected_ship");
+		selectedShip.setVisible(true);
+		
+		add(selectedShip);
 		
 	}
 
