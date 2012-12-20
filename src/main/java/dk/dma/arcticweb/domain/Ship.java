@@ -2,12 +2,14 @@ package dk.dma.arcticweb.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 
 @Entity
@@ -27,7 +29,7 @@ public class Ship extends Stakeholder {
 	private String iceClass;
 	private Boolean helipad;
 	private List<ShipReport> reports;
-	
+	private VoyageInformation voyageInformation;	
 	private ShipOwner owner;
 	
 	public Ship() {
@@ -159,6 +161,15 @@ public class Ship extends Stakeholder {
 	
 	public void setReports(List<ShipReport> reports) {
 		this.reports = reports;
+	}
+	
+	@OneToOne(mappedBy = "ship", cascade = { CascadeType.ALL })
+	public VoyageInformation getVoyageInformation() {
+		return voyageInformation;
+	}
+	
+	public void setVoyageInformation(VoyageInformation voyageInformation) {
+		this.voyageInformation = voyageInformation;
 	}
 	
 }
