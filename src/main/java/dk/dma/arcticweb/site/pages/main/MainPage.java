@@ -15,6 +15,8 @@
  */
 package dk.dma.arcticweb.site.pages.main;
 
+import org.apache.wicket.markup.html.WebMarkupContainer;
+
 import dk.dma.arcticweb.site.SecurePage;
 import dk.dma.arcticweb.site.pages.BasePage;
 import dk.dma.arcticweb.site.pages.main.panel.JsPanel;
@@ -24,6 +26,7 @@ import dk.dma.arcticweb.site.pages.main.panel.SelectedShipInformationPanel;
 import dk.dma.arcticweb.site.pages.main.panel.ShipInformationPanel;
 import dk.dma.arcticweb.site.pages.main.panel.ShipReportPanel;
 import dk.dma.arcticweb.site.pages.main.panel.UserPanel;
+import dk.dma.arcticweb.site.session.ArcticWebSession;
 
 public class MainPage extends BasePage implements SecurePage {
 	private static final long serialVersionUID = 1L;
@@ -34,9 +37,16 @@ public class MainPage extends BasePage implements SecurePage {
 		add(new MapPanel("map"));
 		add(new MenuPanel("menu_panel"));
 		add(new JsPanel("js_panel"));
-		add(new ShipInformationPanel("ship_information"));
+		
+		if (ArcticWebSession.get().getStakeholder().isShip()) {
+			add(new ShipInformationPanel("ship_information"));		
+			add(new ShipReportPanel("ship_report"));
+		} else {
+			add(new WebMarkupContainer("ship_information"));		
+			add(new WebMarkupContainer("ship_report"));
+		}
+		
 		add(new SelectedShipInformationPanel("selected_ship_information"));
-		add(new ShipReportPanel("ship_report"));
 	}
 
 }

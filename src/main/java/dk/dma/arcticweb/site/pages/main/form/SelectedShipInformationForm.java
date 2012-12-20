@@ -4,24 +4,17 @@ import java.util.List;
 
 import javax.ejb.EJB;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.validation.validator.MaximumValidator;
 import org.apache.wicket.validation.validator.MinimumValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 
-import dk.dma.arcticweb.domain.Ship;
 import dk.dma.arcticweb.service.StakeholderService;
-import dk.dma.arcticweb.site.pages.main.MainPage;
-import dk.dma.arcticweb.site.session.ArcticWebSession;
 import dk.dma.enav.model.ship.ShipType;
 
 public class SelectedShipInformationForm extends Form<SelectedShipInformationForm> {
@@ -46,7 +39,6 @@ public class SelectedShipInformationForm extends Form<SelectedShipInformationFor
 	private CheckBox helipad;
 	
 	private FeedbackPanel feedback;
-	private Link<SelectedShipInformationForm> closeLink;
 	private WebMarkupContainer saved;
 
 	public SelectedShipInformationForm(String id) {
@@ -76,17 +68,6 @@ public class SelectedShipInformationForm extends Form<SelectedShipInformationFor
 		feedback.setVisible(false);
 		saved = new WebMarkupContainer("saved");
 		saved.setVisible(false);
-		closeLink = new Link<SelectedShipInformationForm>("close") {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onClick() {
-				feedback.setVisible(false);
-				saved.setVisible(false);
-				setResponsePage(new MainPage());
-			}
-		};
-		//closeLink.setVisible(false);
 
 		add(mmsi);
 		add(name);
@@ -104,7 +85,6 @@ public class SelectedShipInformationForm extends Form<SelectedShipInformationFor
 		
 		add(feedback);
 		add(saved);
-		add(closeLink);
 	}
 
 }
