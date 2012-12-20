@@ -26,6 +26,7 @@ import dk.dma.arcticweb.site.pages.main.panel.SelectedShipInformationPanel;
 import dk.dma.arcticweb.site.pages.main.panel.ShipInformationPanel;
 import dk.dma.arcticweb.site.pages.main.panel.ShipReportPanel;
 import dk.dma.arcticweb.site.pages.main.panel.UserPanel;
+import dk.dma.arcticweb.site.pages.main.panel.VoyageInformationPanel;
 import dk.dma.arcticweb.site.session.ArcticWebSession;
 
 public class MainPage extends BasePage implements SecurePage {
@@ -41,9 +42,11 @@ public class MainPage extends BasePage implements SecurePage {
 		if (ArcticWebSession.get().getStakeholder().isShip()) {
 			add(new ShipInformationPanel("ship_information"));		
 			add(new ShipReportPanel("ship_report"));
+			add(new VoyageInformationPanel("voyage_information"));
 		} else {
 			add(new WebMarkupContainer("ship_information"));		
 			add(new WebMarkupContainer("ship_report"));
+			add(new WebMarkupContainer("voyage_information"));
 		}
 		
 		add(new SelectedShipInformationPanel("selected_ship_information"));
