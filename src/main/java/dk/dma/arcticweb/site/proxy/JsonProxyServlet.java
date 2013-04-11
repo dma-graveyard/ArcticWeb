@@ -53,8 +53,8 @@ public class JsonProxyServlet extends HttpServlet {
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		
-		//String baseUrl = "http://linux06.fomfrv.dk:8081/aisview/rest/";
-		String baseUrl = "http://localhost:8092/aisview/rest/";
+		//String baseUrl = "http://linux06.fomfrv.dk:8081/aisview/rest";
+		String baseUrl = "http://localhost:8092/aisview/rest";
 		String url = baseUrl;
 		if (request.getPathInfo() != null) {
 			url += request.getPathInfo();
